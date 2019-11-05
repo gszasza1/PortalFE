@@ -1,0 +1,44 @@
+$pageColor: var(--primaryTextColor);
+$bgColor: var(--primaryBackground);
+$cardColor: var(--primaryCardColor);
+$firstColor: var(--primaryBackground);
+$secondColor: var(--secondaryBackground);
+$textColor: var(--primaryTextColor);
+$secondaryTextColor: var(--secondaryTextColor);
+$bgImage: var(--bg);
+$logo: var(--logo);
+$icon: var(--icon);
+
+html {
+  --primaryBackground: #05386b;
+  --secondaryBackground: #379683;
+  --primaryTextColor: #edf5e1;
+  --secondaryTextColor: #0c3b69;
+  --primaryCardColor: #5cdb95;
+  --bg: url("../assets/bg.svg");
+  --logo: url("../assets/green_logo.svg");
+  --icon: url("../assets/green_logo.svg");
+}
+
+html[data-theme="1"] {
+  --primaryBackground: #05386b;
+  --secondaryBackground: #379683;
+  --primaryTextColor: #edf5e1;
+  --primaryCardColor: #5cdb95;
+  --bg: url("../assets/bg.svg");
+  --secondaryTextColor: #0c3b69;
+  --logo: url("../assets/green_logo.svg");
+  --icon: url("../assets/green_logo.svg");
+}
+
+html[data-theme="0"] {
+  --primaryBackground: #0b0c10;
+  --secondaryBackground: #1f2833;
+  --secondaryTextColor: #d8dfe7;
+  --primaryTextColor: #c5c6c7;
+  --primaryCardColor: #550c22;
+  --bg: url("../assets/bg_dark.svg");
+  --logo: url("../assets/white_logo_2.svg");
+
+  --icon: url("../assets/white_single_logo_3.svg");
+}

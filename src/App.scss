@@ -1,0 +1,33 @@
+@import "./design/variables.scss";
+.App {
+  text-align: center;
+  background-color: $bgColor;
+  color: $pageColor;
+}
+p {
+  color: $pageColor;
+  margin: 0;
+}
+span {
+  color: $pageColor;
+}
+
+.App-logo {
+  height: 40vmin;
+}
+
+.main-component {
+  min-height: 100vh;
+  .max-size {
+    max-width: 1150px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+}
+.fallback {
+  min-height: 100vh;
+  min-width: 100vw;
+}

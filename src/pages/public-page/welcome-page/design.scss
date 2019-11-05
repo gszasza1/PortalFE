@@ -1,0 +1,45 @@
+@import "../../../design/variables.scss";
+@import "../../../design/constant.scss";
+.bg {
+  background-image: $bgImage;
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100%;
+  min-height: 900px;
+  > * {
+    position: absolute;
+    top: 30%;
+    left: 20%;
+    text-align: left;
+  }
+  h1 {
+    font-weight: 600;
+    font-size: 150px;
+    margin-bottom: 50px;
+    text-decoration: underline;
+    @media screen and (max-width: $size-x) {
+      font-size: 100px;
+    }
+
+    @media screen and (max-width: $size-l) {
+      font-size: 70px;
+    }
+    @media screen and (max-width: $size-m) {
+      font-size: 55px;
+    }
+  }
+  h3 {
+    font-weight: 600;
+    font-size: 90px;
+    @media screen and (max-width: $size-x) {
+      font-size: 70px;
+    }
+
+    @media screen and (max-width: $size-l) {
+      font-size: 50px;
+    }
+    @media screen and (max-width: $size-m) {
+      font-size: 40px;
+    }
+  }
+}

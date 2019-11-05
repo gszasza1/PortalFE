@@ -1,0 +1,22 @@
+@import "../../design/variables.scss";
+.footer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding: 20px;
+  min-height: 100px;
+  align-items: center;
+  padding: 50px;
+  justify-content: space-between;
+  > .logo {
+    background-image: $icon;
+    background-size: contain;
+    width: 100px;
+    height: 100px;
+    background-repeat: no-repeat;
+  }
+  p {
+    font-size: 30px;
+    font-weight: 600;
+  }
+}

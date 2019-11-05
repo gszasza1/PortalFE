@@ -1,0 +1,10 @@
+@import "../../design/variables.scss";
+
+.next-button {
+  padding: 20px;
+  background-color: $cardColor;
+  border-radius: 30px;
+  width: 70%;
+  font-size: 24px;
+  color: $textColor;
+}

@@ -1,0 +1,21 @@
+@import "../../../../design/variables.scss";
+@import "../../../../design/constant.scss";
+
+.card {
+  height: 300px;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  background-color: $cardColor;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  img {
+    padding: 20px;
+    background-color: $white;
+  }
+  p {
+    margin: 0;
+    color: $secondaryTextColor;
+  }
+}

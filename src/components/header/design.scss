@@ -1,0 +1,67 @@
+@import "../../design/variables.scss";
+
+header {
+  width: 100%;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px;
+  align-items: center;
+  > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .logo {
+      background-image: $logo;
+      min-height: 30px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      width: 200px;
+      cursor: pointer;
+      &:hover {
+        background-image: $logo;
+      }
+    }
+
+    > * {
+      margin: 0;
+      margin-left: 20px;
+    }
+    p {
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  }
+}
+.switcher {
+  padding: 0.5rem 1.5rem;
+  cursor: pointer;
+}
+.log-menu {
+  text-decoration: none;
+  display: flex;
+  list-style: none;
+  flex-direction: row;
+  margin: 0;
+
+  padding: 10px;
+  background-color: $cardColor;
+  > * {
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+}
+a {
+  color: $secondaryTextColor;
+  font-weight: 500;
+  &:hover {
+    color: $textColor;
+  }
+}
+.register-text {
+  align-self: flex-end;
+  padding: 6px;
+}

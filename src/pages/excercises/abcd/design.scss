@@ -1,0 +1,58 @@
+@import "../../../design/variables.scss";
+
+h3 {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+.answer-container {
+  width: 250px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  .abcd-answer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15%;
+    margin: 10px;
+    height: 100px;
+    width: 100px;
+    border: 1px solid;
+    font-weight: bold;
+    font-size: 24px;
+
+    color: $textColor;
+    background-color: $cardColor;
+  }
+  .selected-answer {
+    background-color: white;
+    color: $cardColor;
+  }
+
+  .failed {
+    background-color: red;
+  }
+  .correct {
+    background-color: green;
+  }
+}
+.abcd-wrapper {
+  display: flex;
+  flex-direction: row;
+  h3 {
+    flex: 1;
+    margin-left: -150px;
+  }
+
+  .question-mark > .tooltip-inner {
+    background-color: $cardColor;
+  }
+}
+#Tooltipped {
+  width: 50px;
+  margin: 50px;
+  filter: invert(4) sepia(0.3) saturate(5) hue-rotate(175deg);
+}

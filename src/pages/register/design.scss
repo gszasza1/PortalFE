@@ -1,0 +1,55 @@
+@import "../../design/variables.scss";
+@import "../../design/constant.scss";
+@import "../../design/style.scss";
+.register {
+  padding: 30px;
+  border-radius: 50px;
+  background-color: $secondColor;
+  min-width: 400px;
+}
+ul {
+  padding: 0;
+  li {
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+    margin: auto;
+    text-align: left;
+    margin-top: 10px;
+    color: $error;
+    > * {
+      color: $textColor;
+    }
+  }
+  .color {
+    flex-direction: row;
+    .colorpick {
+      text-align: initial;
+      font-size: 24px;
+      cursor: pointer;
+    }
+    .pickedcolor {
+      display: inline;
+      border: 1px solid $textColor;
+      border-radius: 10px;
+      margin-right: 10px;
+      margin-left: 10px;
+      flex: 1;
+    }
+  }
+}
+
+.input {
+  width: 100%;
+}
+.image {
+  background-image: $bgImage;
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100%;
+  align-items: flex-start;
+  display: flex;
+  padding-top: 100px;
+  justify-content: center;
+  min-height: inherit;
+}

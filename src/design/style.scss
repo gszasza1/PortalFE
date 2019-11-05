@@ -1,0 +1,7 @@
+@import "./variables.scss";
+.input {
+  background-color: rgba(210, 231, 238, 0.384);
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid $textColor;
+}
