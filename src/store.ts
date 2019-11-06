@@ -1,9 +1,10 @@
-import { combineReducers, Reducer, AnyAction } from "redux";
-import { RouterState } from "connected-react-router";
-import { PagesState, PagesReducer } from "./pages/store";
-import { UserState } from "./user";
-import { userReducer } from "./user/reducer";
-import { themeState, themeReducer } from "./components/header";
+import { RouterState } from 'connected-react-router';
+import { AnyAction, combineReducers, Reducer } from 'redux';
+
+import { themeReducer, themeState } from './components/header';
+import { PagesReducer, PagesState } from './pages/store';
+import { UserState } from './user';
+import { userReducer } from './user/reducer';
 
 export interface AppState {
   pages: PagesState;
@@ -19,6 +20,9 @@ export interface IApllicationState {
 export interface ResetAction {
   type: "RESET_EVERYTHING";
 }
+export const ResetActionTypes: ResetAction = {
+  type: "RESET_EVERYTHING"
+};
 
 export const resetEverything = (): ResetAction => ({
   type: "RESET_EVERYTHING"

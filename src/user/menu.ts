@@ -1,4 +1,4 @@
-import { BASE_PATHS, AUTH_PATH } from "../router/paths";
+import { AUTH_PATH, BASE_PATHS } from '../router/paths';
 
 export const MENU: Menuitem[] = [
   {
@@ -8,6 +8,16 @@ export const MENU: Menuitem[] = [
   {
     name: "Játékok",
     path: BASE_PATHS.AUTH + AUTH_PATH.GAME
+  },
+
+  {
+    name: "Ranglista",
+    path: BASE_PATHS.AUTH + AUTH_PATH.RANK
+  },
+
+  {
+    name: "Hír",
+    path: BASE_PATHS.AUTH + AUTH_PATH.NEWS
   }
 ];
 

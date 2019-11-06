@@ -1,9 +1,10 @@
-import { connect } from "react-redux";
-import { Dispatch, bindActionCreators } from "redux";
+import { connect } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
 
-import { SliderPageUnconnected } from "./component";
-import { welcomePageData, getWelcomePageData } from "./actions/welcome.get";
-import { IApllicationState } from "../../../store";
+import { IApllicationState } from '../../../store';
+import { getWelcomePageData, welcomePageData } from '../card-page/actions/welcome.get';
+import { SliderPageUnconnected } from './component';
+
 const mapStateToProps = (state: IApllicationState): MappedProps => {
   const initState: welcomePageData = { db: [], cards: [] };
   return {

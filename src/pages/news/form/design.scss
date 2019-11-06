@@ -1,0 +1,26 @@
+@import "../../../design/variables.scss";
+.new-form {
+  max-width: 700px;
+  margin: auto;
+  margin-top: 5vh;
+  background-color: $secondColor;
+  padding: 20px;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  > * {
+    margin: 10px;
+    width: initial;
+    text-align: left;
+  }
+  div {
+    display: flex;
+    flex-direction: row;
+    > * {
+      margin-right: 10px;
+    }
+  }
+  textarea {
+    min-height: 100px;
+  }
+}

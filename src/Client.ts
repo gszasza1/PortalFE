@@ -19,7 +19,53 @@ export class AccountClient {
         this.baseUrl = baseUrl ? baseUrl : "";
     }
 
-    getAccount(userName: string | null | undefined): Promise<ProfileInfo> {
+    checkAuthorization(): Promise<MinimizedLoginData> {
+        let url_ = this.baseUrl + "/api/Account/check";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "GET",
+            url: url_,
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.instance.request(options_).then((_response: AxiosResponse) => {
+            return this.processCheckAuthorization(_response);
+        });
+    }
+
+    protected processCheckAuthorization(response: AxiosResponse): Promise<MinimizedLoginData> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = MinimizedLoginData.fromJS(resultData200);
+            return result200;
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = ProblemDetails.fromJS(resultData401);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<MinimizedLoginData>(<any>null);
+    }
+
+    getSelfProfile(): Promise<ProfileInfo> {
         let url_ = this.baseUrl + "/api/Account";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -27,17 +73,16 @@ export class AccountClient {
             method: "GET",
             url: url_,
             headers: {
-                "UserName": userName !== undefined && userName !== null ? "" + userName : "", 
                 "Accept": "application/json"
             }
         };
 
         return this.instance.request(options_).then((_response: AxiosResponse) => {
-            return this.processGetAccount(_response);
+            return this.processGetSelfProfile(_response);
         });
     }
 
-    protected processGetAccount(response: AxiosResponse): Promise<ProfileInfo> {
+    protected processGetSelfProfile(response: AxiosResponse): Promise<ProfileInfo> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -112,99 +157,7 @@ export class AccountClient {
         return Promise.resolve<void>(<any>null);
     }
 
-    checkAuthorization(): Promise<MinimizedLoginData> {
-        let url_ = this.baseUrl + "/api/Account/check";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ = <AxiosRequestConfig>{
-            method: "GET",
-            url: url_,
-            headers: {
-                "Accept": "application/json"
-            }
-        };
-
-        return this.instance.request(options_).then((_response: AxiosResponse) => {
-            return this.processCheckAuthorization(_response);
-        });
-    }
-
-    protected processCheckAuthorization(response: AxiosResponse): Promise<MinimizedLoginData> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-            result200 = MinimizedLoginData.fromJS(resultData200);
-            return result200;
-        } else if (status === 401) {
-            const _responseText = response.data;
-            let result401: any = null;
-            let resultData401  = _responseText;
-            result401 = ProblemDetails.fromJS(resultData401);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<MinimizedLoginData>(<any>null);
-    }
-
-    getSelfProfile(): Promise<User> {
-        let url_ = this.baseUrl + "/api/Account/me";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ = <AxiosRequestConfig>{
-            method: "GET",
-            url: url_,
-            headers: {
-                "Accept": "application/json"
-            }
-        };
-
-        return this.instance.request(options_).then((_response: AxiosResponse) => {
-            return this.processGetSelfProfile(_response);
-        });
-    }
-
-    protected processGetSelfProfile(response: AxiosResponse): Promise<User> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-            result200 = User.fromJS(resultData200);
-            return result200;
-        } else if (status === 401) {
-            const _responseText = response.data;
-            let result401: any = null;
-            let resultData401  = _responseText;
-            result401 = ProblemDetails.fromJS(resultData401);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<User>(<any>null);
-    }
-
-    getRankList(age: number | undefined, totalResult: number | undefined): Promise<RankUsersOfInteger[]> {
+    getRankListByAge(age: number | undefined, totalResult: number | undefined): Promise<RankUsersOfInteger[]> {
         let url_ = this.baseUrl + "/api/Account/ranklist/age?";
         if (age === null)
             throw new Error("The parameter 'age' cannot be null.");
@@ -225,11 +178,11 @@ export class AccountClient {
         };
 
         return this.instance.request(options_).then((_response: AxiosResponse) => {
-            return this.processGetRankList(_response);
+            return this.processGetRankListByAge(_response);
         });
     }
 
-    protected processGetRankList(response: AxiosResponse): Promise<RankUsersOfInteger[]> {
+    protected processGetRankListByAge(response: AxiosResponse): Promise<RankUsersOfInteger[]> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -260,6 +213,116 @@ export class AccountClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
         return Promise.resolve<RankUsersOfInteger[]>(<any>null);
+    }
+
+    getRankListByScore(totalScore: number | undefined, totalResult: number | undefined): Promise<RankUsersOfInteger[]> {
+        let url_ = this.baseUrl + "/api/Account/ranklist/score?";
+        if (totalScore === null)
+            throw new Error("The parameter 'totalScore' cannot be null.");
+        else if (totalScore !== undefined)
+            url_ += "TotalScore=" + encodeURIComponent("" + totalScore) + "&"; 
+        if (totalResult === null)
+            throw new Error("The parameter 'totalResult' cannot be null.");
+        else if (totalResult !== undefined)
+            url_ += "TotalResult=" + encodeURIComponent("" + totalResult) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "GET",
+            url: url_,
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.instance.request(options_).then((_response: AxiosResponse) => {
+            return this.processGetRankListByScore(_response);
+        });
+    }
+
+    protected processGetRankListByScore(response: AxiosResponse): Promise<RankUsersOfInteger[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(RankUsersOfInteger.fromJS(item));
+            }
+            return result200;
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = ProblemDetails.fromJS(resultData401);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<RankUsersOfInteger[]>(<any>null);
+    }
+
+    changePassword(data: PasswordChangeData): Promise<void> {
+        let url_ = this.baseUrl + "/api/Account/me/password";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(data);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json", 
+            }
+        };
+
+        return this.instance.request(options_).then((_response: AxiosResponse) => {
+            return this.processChangePassword(_response);
+        });
+    }
+
+    protected processChangePassword(response: AxiosResponse): Promise<void> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            return Promise.resolve<void>(<any>null);
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = ProblemDetails.fromJS(resultData401);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = ProblemDetails.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<void>(<any>null);
     }
 }
 
@@ -719,14 +782,11 @@ export class ValuesClient {
     }
 }
 
-export class ProfileInfo implements IProfileInfo {
+export class MinimizedLoginData implements IMinimizedLoginData {
     userName?: string | undefined;
     totalScore!: number;
-    age!: number;
-    color?: string | undefined;
-    allowedGames?: string[] | undefined;
 
-    constructor(data?: IProfileInfo) {
+    constructor(data?: IMinimizedLoginData) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -739,19 +799,12 @@ export class ProfileInfo implements IProfileInfo {
         if (_data) {
             this.userName = _data["userName"];
             this.totalScore = _data["totalScore"];
-            this.age = _data["age"];
-            this.color = _data["color"];
-            if (Array.isArray(_data["allowedGames"])) {
-                this.allowedGames = [] as any;
-                for (let item of _data["allowedGames"])
-                    this.allowedGames!.push(item);
-            }
         }
     }
 
-    static fromJS(data: any): ProfileInfo {
+    static fromJS(data: any): MinimizedLoginData {
         data = typeof data === 'object' ? data : {};
-        let result = new ProfileInfo();
+        let result = new MinimizedLoginData();
         result.init(data);
         return result;
     }
@@ -760,23 +813,13 @@ export class ProfileInfo implements IProfileInfo {
         data = typeof data === 'object' ? data : {};
         data["userName"] = this.userName;
         data["totalScore"] = this.totalScore;
-        data["age"] = this.age;
-        data["color"] = this.color;
-        if (Array.isArray(this.allowedGames)) {
-            data["allowedGames"] = [];
-            for (let item of this.allowedGames)
-                data["allowedGames"].push(item);
-        }
         return data; 
     }
 }
 
-export interface IProfileInfo {
+export interface IMinimizedLoginData {
     userName?: string | undefined;
     totalScore: number;
-    age: number;
-    color?: string | undefined;
-    allowedGames?: string[] | undefined;
 }
 
 export class ProblemDetails implements IProblemDetails {
@@ -831,11 +874,15 @@ export interface IProblemDetails {
     instance?: string | undefined;
 }
 
-export class MinimizedLoginData implements IMinimizedLoginData {
+export class ProfileInfo implements IProfileInfo {
     userName?: string | undefined;
     totalScore!: number;
+    age!: number;
+    color?: string | undefined;
+    email?: string | undefined;
+    allowedGames?: string[] | undefined;
 
-    constructor(data?: IMinimizedLoginData) {
+    constructor(data?: IProfileInfo) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -848,12 +895,20 @@ export class MinimizedLoginData implements IMinimizedLoginData {
         if (_data) {
             this.userName = _data["userName"];
             this.totalScore = _data["totalScore"];
+            this.age = _data["age"];
+            this.color = _data["color"];
+            this.email = _data["email"];
+            if (Array.isArray(_data["allowedGames"])) {
+                this.allowedGames = [] as any;
+                for (let item of _data["allowedGames"])
+                    this.allowedGames!.push(item);
+            }
         }
     }
 
-    static fromJS(data: any): MinimizedLoginData {
+    static fromJS(data: any): ProfileInfo {
         data = typeof data === 'object' ? data : {};
-        let result = new MinimizedLoginData();
+        let result = new ProfileInfo();
         result.init(data);
         return result;
     }
@@ -862,13 +917,286 @@ export class MinimizedLoginData implements IMinimizedLoginData {
         data = typeof data === 'object' ? data : {};
         data["userName"] = this.userName;
         data["totalScore"] = this.totalScore;
+        data["age"] = this.age;
+        data["color"] = this.color;
+        data["email"] = this.email;
+        if (Array.isArray(this.allowedGames)) {
+            data["allowedGames"] = [];
+            for (let item of this.allowedGames)
+                data["allowedGames"].push(item);
+        }
         return data; 
     }
 }
 
-export interface IMinimizedLoginData {
+export interface IProfileInfo {
     userName?: string | undefined;
     totalScore: number;
+    age: number;
+    color?: string | undefined;
+    email?: string | undefined;
+    allowedGames?: string[] | undefined;
+}
+
+export class RegisterData implements IRegisterData {
+    age!: number;
+    color?: string | undefined;
+    email?: string | undefined;
+    userName?: string | undefined;
+    password?: string | undefined;
+
+    constructor(data?: IRegisterData) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.age = _data["age"];
+            this.color = _data["color"];
+            this.email = _data["email"];
+            this.userName = _data["userName"];
+            this.password = _data["password"];
+        }
+    }
+
+    static fromJS(data: any): RegisterData {
+        data = typeof data === 'object' ? data : {};
+        let result = new RegisterData();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["age"] = this.age;
+        data["color"] = this.color;
+        data["email"] = this.email;
+        data["userName"] = this.userName;
+        data["password"] = this.password;
+        return data; 
+    }
+}
+
+export interface IRegisterData {
+    age: number;
+    color?: string | undefined;
+    email?: string | undefined;
+    userName?: string | undefined;
+    password?: string | undefined;
+}
+
+export class RankUsersOfInteger implements IRankUsersOfInteger {
+    userName?: string | undefined;
+    displayData!: number;
+
+    constructor(data?: IRankUsersOfInteger) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.userName = _data["userName"];
+            this.displayData = _data["displayData"];
+        }
+    }
+
+    static fromJS(data: any): RankUsersOfInteger {
+        data = typeof data === 'object' ? data : {};
+        let result = new RankUsersOfInteger();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["userName"] = this.userName;
+        data["displayData"] = this.displayData;
+        return data; 
+    }
+}
+
+export interface IRankUsersOfInteger {
+    userName?: string | undefined;
+    displayData: number;
+}
+
+export class PasswordChangeData implements IPasswordChangeData {
+    oldPassword?: string | undefined;
+    newPassword?: string | undefined;
+
+    constructor(data?: IPasswordChangeData) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.oldPassword = _data["oldPassword"];
+            this.newPassword = _data["newPassword"];
+        }
+    }
+
+    static fromJS(data: any): PasswordChangeData {
+        data = typeof data === 'object' ? data : {};
+        let result = new PasswordChangeData();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["oldPassword"] = this.oldPassword;
+        data["newPassword"] = this.newPassword;
+        return data; 
+    }
+}
+
+export interface IPasswordChangeData {
+    oldPassword?: string | undefined;
+    newPassword?: string | undefined;
+}
+
+export class PostNews implements IPostNews {
+    title?: string | undefined;
+    description?: string | undefined;
+    link?: string | undefined;
+
+    constructor(data?: IPostNews) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.title = _data["title"];
+            this.description = _data["description"];
+            this.link = _data["link"];
+        }
+    }
+
+    static fromJS(data: any): PostNews {
+        data = typeof data === 'object' ? data : {};
+        let result = new PostNews();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["title"] = this.title;
+        data["description"] = this.description;
+        data["link"] = this.link;
+        return data; 
+    }
+}
+
+export interface IPostNews {
+    title?: string | undefined;
+    description?: string | undefined;
+    link?: string | undefined;
+}
+
+export class NewsCard implements INewsCard {
+    id?: string | undefined;
+    title?: string | undefined;
+    link?: string | undefined;
+
+    constructor(data?: INewsCard) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.title = _data["title"];
+            this.link = _data["link"];
+        }
+    }
+
+    static fromJS(data: any): NewsCard {
+        data = typeof data === 'object' ? data : {};
+        let result = new NewsCard();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["title"] = this.title;
+        data["link"] = this.link;
+        return data; 
+    }
+}
+
+export interface INewsCard {
+    id?: string | undefined;
+    title?: string | undefined;
+    link?: string | undefined;
+}
+
+export class New extends NewsCard implements INew {
+    date!: Date;
+    description?: string | undefined;
+    creator?: User | undefined;
+
+    constructor(data?: INew) {
+        super(data);
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.date = _data["date"] ? new Date(_data["date"].toString()) : <any>undefined;
+            this.description = _data["description"];
+            this.creator = _data["creator"] ? User.fromJS(_data["creator"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): New {
+        data = typeof data === 'object' ? data : {};
+        let result = new New();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["date"] = this.date ? this.date.toISOString() : <any>undefined;
+        data["description"] = this.description;
+        data["creator"] = this.creator ? this.creator.toJSON() : <any>undefined;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INew extends INewsCard {
+    date: Date;
+    description?: string | undefined;
+    creator?: User | undefined;
 }
 
 export class IdentityUserOfString implements IIdentityUserOfString {
@@ -1101,227 +1429,6 @@ export interface IGame {
     price?: string | undefined;
     image?: string | undefined;
     allowedUsers?: User[] | undefined;
-}
-
-export class RegisterData implements IRegisterData {
-    age!: number;
-    color?: string | undefined;
-    email?: string | undefined;
-    userName?: string | undefined;
-    password?: string | undefined;
-
-    constructor(data?: IRegisterData) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.age = _data["age"];
-            this.color = _data["color"];
-            this.email = _data["email"];
-            this.userName = _data["userName"];
-            this.password = _data["password"];
-        }
-    }
-
-    static fromJS(data: any): RegisterData {
-        data = typeof data === 'object' ? data : {};
-        let result = new RegisterData();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["age"] = this.age;
-        data["color"] = this.color;
-        data["email"] = this.email;
-        data["userName"] = this.userName;
-        data["password"] = this.password;
-        return data; 
-    }
-}
-
-export interface IRegisterData {
-    age: number;
-    color?: string | undefined;
-    email?: string | undefined;
-    userName?: string | undefined;
-    password?: string | undefined;
-}
-
-export class RankUsersOfInteger implements IRankUsersOfInteger {
-    userName?: string | undefined;
-    displayData!: number;
-
-    constructor(data?: IRankUsersOfInteger) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.userName = _data["userName"];
-            this.displayData = _data["displayData"];
-        }
-    }
-
-    static fromJS(data: any): RankUsersOfInteger {
-        data = typeof data === 'object' ? data : {};
-        let result = new RankUsersOfInteger();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["userName"] = this.userName;
-        data["displayData"] = this.displayData;
-        return data; 
-    }
-}
-
-export interface IRankUsersOfInteger {
-    userName?: string | undefined;
-    displayData: number;
-}
-
-export class PostNews implements IPostNews {
-    title?: string | undefined;
-    description?: string | undefined;
-    link?: string | undefined;
-
-    constructor(data?: IPostNews) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.title = _data["title"];
-            this.description = _data["description"];
-            this.link = _data["link"];
-        }
-    }
-
-    static fromJS(data: any): PostNews {
-        data = typeof data === 'object' ? data : {};
-        let result = new PostNews();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["title"] = this.title;
-        data["description"] = this.description;
-        data["link"] = this.link;
-        return data; 
-    }
-}
-
-export interface IPostNews {
-    title?: string | undefined;
-    description?: string | undefined;
-    link?: string | undefined;
-}
-
-export class NewsCard implements INewsCard {
-    id?: string | undefined;
-    title?: string | undefined;
-    link?: string | undefined;
-
-    constructor(data?: INewsCard) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["id"];
-            this.title = _data["title"];
-            this.link = _data["link"];
-        }
-    }
-
-    static fromJS(data: any): NewsCard {
-        data = typeof data === 'object' ? data : {};
-        let result = new NewsCard();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["title"] = this.title;
-        data["link"] = this.link;
-        return data; 
-    }
-}
-
-export interface INewsCard {
-    id?: string | undefined;
-    title?: string | undefined;
-    link?: string | undefined;
-}
-
-export class New extends NewsCard implements INew {
-    date!: Date;
-    description?: string | undefined;
-    creator?: User | undefined;
-
-    constructor(data?: INew) {
-        super(data);
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.date = _data["date"] ? new Date(_data["date"].toString()) : <any>undefined;
-            this.description = _data["description"];
-            this.creator = _data["creator"] ? User.fromJS(_data["creator"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): New {
-        data = typeof data === 'object' ? data : {};
-        let result = new New();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["date"] = this.date ? this.date.toISOString() : <any>undefined;
-        data["description"] = this.description;
-        data["creator"] = this.creator ? this.creator.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface INew extends INewsCard {
-    date: Date;
-    description?: string | undefined;
-    creator?: User | undefined;
 }
 
 export interface FileResponse {

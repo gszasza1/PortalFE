@@ -1,22 +1,30 @@
-import { combineReducers } from "redux";
-import { welcomePageState } from "./public-page/slider-page/store";
-import { welcomePageReducer } from "./public-page/slider-page/reducer";
-import { ExcercisesState, ExcercisesReducer } from "./excercises/store";
-import { RegisterState } from "./register/store";
-import { RegisterReducer } from "./register/reducer";
-import { LoginState } from "./login/store";
-import { LoginReducer } from "./login/reducer";
+import { combineReducers } from 'redux';
+
+import { UserDataReducer } from '../components/user-data/reducer';
+import { UserDataState } from '../components/user-data/store';
+import { ExcercisesReducer, ExcercisesState } from './excercises/store';
+import { LoginReducer } from './login/reducer';
+import { LoginState } from './login/store';
+import { welcomePageReducer } from './public-page/card-page/reducer';
+import { welcomePageState } from './public-page/card-page/store';
+import { RankReducer, RankState } from './rank';
+import { RegisterReducer } from './register/reducer';
+import { RegisterState } from './register/store';
 
 export interface PagesState {
   welcomePage: welcomePageState;
   excercises: ExcercisesState;
   register: RegisterState;
+  rank: RankState;
   login: LoginState;
+  userProfileData: UserDataState;
 }
 
 export const PagesReducer = combineReducers<PagesState>({
   welcomePage: welcomePageReducer,
   excercises: ExcercisesReducer,
   register: RegisterReducer,
-  login:LoginReducer
+  login: LoginReducer,
+  rank: RankReducer,
+  userProfileData: UserDataReducer
 });

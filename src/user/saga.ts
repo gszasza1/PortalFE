@@ -1,14 +1,15 @@
-import { AccountClient, IMinimizedLoginData } from "../Client";
-import { BaseUrl } from "../config/api";
+import { push } from 'connected-react-router';
+import { all, call, put, takeEvery } from 'redux-saga/effects';
 
+import { AccountClient, IMinimizedLoginData } from '../Client';
+import { BaseUrl } from '../config/api';
+import { ResetActionTypes } from '../store';
 import {
-  getCheckloginDataSuccess,
   CheckloginActionTypes,
   getCheckloginDataError,
-  ICheckloginRequest
-} from "./actions/checkLogin.get";
-import { push } from "connected-react-router";
-import { call, put, takeEvery, all } from "redux-saga/effects";
+  getCheckloginDataSuccess,
+  ICheckloginRequest,
+} from './actions/checkLogin.get';
 
 const api = (): Promise<IMinimizedLoginData> | any => {
   const client = new AccountClient(BaseUrl);
@@ -31,11 +32,17 @@ function* handleGetRequest(action: ICheckloginRequest) {
     yield put(getCheckloginDataError(err));
   }
 }
+function* handleLogout() {
+  yield put(push(""));
+}
 
 export function* checkLogin() {
   yield takeEvery(CheckloginActionTypes.REQUEST, handleGetRequest);
 }
+export function* checklogout() {
+  yield takeEvery(ResetActionTypes.type, handleLogout);
+}
 
 export function* watchCheckLogin() {
-  yield all([call(checkLogin)]);
+  yield all([call(checkLogin), call(checklogout)]);
 }

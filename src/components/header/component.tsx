@@ -1,19 +1,18 @@
-import React from "react";
-import { MappedProps, DispachedProps } from ".";
-import Switch from "react-switch";
-import {
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem
-} from "reactstrap";
-import "./design.scss";
-import { Link } from "react-router-dom";
-import { MENU } from "../../user/menu";
-import { BASE_PATHS } from "../../router/paths";
+import './design.scss';
+
+import React from 'react';
+import { Link } from 'react-router-dom';
+import Switch from 'react-switch';
+import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Modal } from 'reactstrap';
+
+import { DispachedProps, MappedProps } from '.';
+import { BASE_PATHS } from '../../router/paths';
+import { MENU } from '../../user/menu';
+import { UserData } from '../user-data/connect';
 
 interface State {
   dropdownOpen: boolean;
+  modalOpen: boolean;
 }
 interface Props extends MappedProps, DispachedProps {}
 
@@ -21,19 +20,25 @@ export class HeaderUnconnected extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      dropdownOpen: false
+      dropdownOpen: false,
+      modalOpen: false
     };
   }
 
   componentDidMount() {}
 
-  toggle = () => {
+  dropdownToogle = () => {
     this.setState(prevState => ({
       dropdownOpen: !prevState.dropdownOpen
     }));
   };
   changeTheme = () => {
     this.props.toogle();
+  };
+  modalToogle = () => {
+    this.setState(prevState => ({
+      modalOpen: !prevState.modalOpen
+    }));
   };
 
   render() {
@@ -57,21 +62,27 @@ export class HeaderUnconnected extends React.Component<Props, State> {
               {this.props.checkdata && (
                 <div>
                   <p>
-                    {this.props.checkdata.userName
-                      ? this.props.checkdata.userName
+                    {this.props.checkdata.totalScore
+                      ? this.props.checkdata.totalScore
                       : "Nono Név"}
                   </p>
                   <Dropdown
                     isOpen={this.state.dropdownOpen}
-                    toggle={this.toggle}
+                    toggle={this.dropdownToogle}
                   >
                     <DropdownToggle tag="p" caret>
-                      Név
+                      {this.props.checkdata.userName
+                        ? this.props.checkdata.userName
+                        : "Nono Név"}
                     </DropdownToggle>
                     <DropdownMenu right>
                       <DropdownItem header>profil</DropdownItem>
-                      <DropdownItem disabled>Adatok</DropdownItem>
-                      <DropdownItem disabled>Kijelentkezés</DropdownItem>
+                      <DropdownItem onClick={() => this.modalToogle()}>
+                        Adatok
+                      </DropdownItem>
+                      <DropdownItem onClick={() => this.props.logout()}>
+                        Kijelentkezés
+                      </DropdownItem>
                       <DropdownItem divider />
                       <DropdownItem header>Téma átállítása</DropdownItem>
 
@@ -97,6 +108,13 @@ export class HeaderUnconnected extends React.Component<Props, State> {
             ))}
           </ul>
         )}
+        <Modal
+          className="user-modal"
+          isOpen={this.state.modalOpen}
+          toggle={() => this.modalToogle()}
+        >
+          <UserData></UserData>
+        </Modal>
       </>
     );
   }

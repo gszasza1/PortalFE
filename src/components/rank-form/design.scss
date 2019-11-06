@@ -1,0 +1,76 @@
+@import "../../design/variables.scss";
+@import "../../design/constant.scss";
+
+$size: 600px;
+.rank-form {
+  max-width: $size;
+  max-height: $size;
+  border-radius: 20px;
+  margin: auto;
+  padding: 10px 30px;
+  overflow: auto;
+  background-color: $secondColor;
+  li {
+    &:first-child {
+      border-bottom: 1px solid $textColor;
+      p {
+        font-weight: 700;
+        font-size: 20px;
+      }
+    }
+    margin: 0;
+    min-width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+.rank-form-nav {
+  padding: 10px;
+  margin: auto;
+  margin-top: 5vh;
+  max-width: $size;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  a {
+    border-radius: 20px;
+    width: 100px;
+    color: $textColor;
+    margin-right: 10px;
+    background-color: $secondColor;
+    opacity: 0.7;
+  }
+  .path-match {
+    opacity: 1;
+    border: 1px solid $textColor;
+  }
+}
+.rank-data {
+  display: flex;
+  margin: auto;
+  max-width: $size;
+  justify-content: space-between;
+  .rank-data-change {
+    display: flex;
+    flex-direction: row;
+    button {
+      border-radius: 20px;
+      width: 50px;
+      overflow: hidden;
+      color: $textColor;
+      margin-right: 10px;
+      background-color: $secondColor;
+      opacity: 0.7;
+      &:disabled {
+        border: 1px solid $error;
+      }
+    }
+  }
+}
+.rank-data-title {
+  margin-top: 0;
+  > * {
+    margin-top: 0;
+  }
+}

@@ -1,16 +1,28 @@
-import { RouteComponentProps, Route } from "react-router";
-import React from "react";
-import { AUTH_PATH } from "../paths/auth";
-import ExcerciseRouterLayer from "./excercise";
+import React from 'react';
+import { Route, RouteComponentProps } from 'react-router';
+
+import { AUTH_PATH } from '../paths/auth';
+import ExcerciseRouterLayer from './excercise';
+import NewsRouterLayer from './news';
+import RankRouterLayer from './rank';
 
 export const AuthorizedLayer = (props: RouteComponentProps<{}>) => {
-  console.log("authLayeren vagyok", props);
   return (
     <>
       <Route
         path={props.match.url + AUTH_PATH.EXCERCISES}
-        exact
+        {...props}
         component={ExcerciseRouterLayer}
+      ></Route>
+      <Route
+        path={props.match.url + AUTH_PATH.RANK}
+        {...props}
+        component={RankRouterLayer}
+      ></Route>
+      <Route
+        path={props.match.url + AUTH_PATH.NEWS}
+        {...props}
+        component={NewsRouterLayer}
       ></Route>
     </>
   );

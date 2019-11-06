@@ -4,7 +4,7 @@ import "./design.scss";
 import { LoginStoreProps } from "./connect";
 import { Formik, Form as FormikForm, Field, ErrorMessage } from "formik";
 import { Button } from "../../components/button/component";
-import { Label, Popover, PopoverBody } from "reactstrap";
+import { Label } from "reactstrap";
 
 interface Props extends LoginStoreProps {}
 
@@ -71,17 +71,12 @@ export class LoginUnConnected extends React.PureComponent<Props, State> {
                   <ErrorMessage name="password" />
                 </li>
               </ul>
-              <Button id="sendbutton" type="submit" text="Beküldés"></Button>
-              <Popover
-                placement="bottom"
-                isOpen={this.state.popoverOpen}
-                target="sendbutton"
-                toggle={() => this.tooglePopup()}
-              >
-                <PopoverBody>
-                  Pár mező nincs megfelelően kitöltve. Kérlek ellenőrizd
-                </PopoverBody>
-              </Popover>
+              <Button
+                id="sendbutton"
+                type="submit"
+                text={this.props.isRequesting ? "Betöltés" : "Küldés"}
+              ></Button>
+              {this.props.error && <p>Hiba történt</p>}
             </FormikForm>
           </Formik>
         </div>

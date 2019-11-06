@@ -1,15 +1,12 @@
-import React from "react";
-import {
-  Carousel,
-  CarouselIndicators,
-  CarouselControl,
-  CarouselItem,
-  CarouselCaption
-} from "reactstrap";
-import { MappedProps, DispachedProps } from "./connect";
+import './design.scss';
 
-import tempImage from "../../../assets/tempImage.png";
-import "./design.scss";
+import React from 'react';
+import { Carousel, CarouselCaption, CarouselControl, CarouselIndicators, CarouselItem } from 'reactstrap';
+
+import Game from '../../../assets/game.svg';
+import Homework from '../../../assets/homework.svg';
+import Ranklist from '../../../assets/ranklist.svg';
+import { DispachedProps, MappedProps } from './connect';
 
 interface Props extends MappedProps, DispachedProps {}
 interface State {
@@ -59,14 +56,15 @@ export class SliderPageUnconnected extends React.Component<Props, State> {
   };
 
   render() {
-    const slides = this.props.items.db.map(item => {
+    const slides = items.map(item => {
       return (
         <CarouselItem
+          className="slider-color"
           onExiting={this.onExiting}
           onExited={this.onExited}
           key={item.title}
         >
-          <img src={item.img ? item.img : tempImage} alt={item.title} />
+          <img className="slider-image" src={item.image} alt={item.title} />
           <CarouselCaption
             captionText={item.secondTitle}
             captionHeader={item.title}
@@ -83,7 +81,7 @@ export class SliderPageUnconnected extends React.Component<Props, State> {
           previous={this.previous}
         >
           <CarouselIndicators
-            items={this.props.items.db}
+            items={items}
             activeIndex={this.state.activeIndex}
             onClickHandler={this.goToIndex}
           />
@@ -99,13 +97,29 @@ export class SliderPageUnconnected extends React.Component<Props, State> {
             onClickHandler={this.next}
           />
         </Carousel>
-        {/* <div className="mouse-container">
-          <div className="mouse">
-            <div></div>
-          </div>
-        </div> */}
-        {/* <div className="border"></div> */}
       </>
     );
   }
 }
+interface Slider {
+  image: string;
+  title: string;
+  secondTitle: string;
+}
+const items: Slider[] = [
+  {
+    image: Homework,
+    secondTitle: "Fedezd fel a tanulás örömeit!",
+    title: "Feladatok"
+  },
+  {
+    image: Game,
+    secondTitle: "Ne hagy ki a  játékokat!",
+    title: "Játékok"
+  },
+  {
+    image: Ranklist,
+    secondTitle: "Csekkold le a pontjaidat",
+    title: "Ranglista"
+  }
+];

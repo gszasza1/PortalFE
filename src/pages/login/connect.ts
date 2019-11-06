@@ -4,8 +4,14 @@ import { Dispatch, bindActionCreators } from "redux";
 import { LoginUnConnected } from "./component";
 import { postLoginData, postLoginDataModify } from "./actions/login.post";
 import { IApllicationState } from "../../store";
+import { GeneralProps } from "../../functions/interfaces";
 const mapStateToProps = (state: IApllicationState): MappedProps => {
-  return {};
+  return {
+    isRequesting:state.app.pages.login.isRequesting,
+    error:state.app.pages.login.error,
+    isLoaded:state.app.pages.login.isLoaded
+
+  };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch): DispachedProps =>
@@ -26,7 +32,9 @@ export interface DispachedProps {
   LoginSend: Function;
   modifyLoginData: Function;
 }
-export interface MappedProps {}
+export interface MappedProps extends GeneralProps {
+
+}
 
 export type LoginStoreProps = MappedProps & DispachedProps;
 

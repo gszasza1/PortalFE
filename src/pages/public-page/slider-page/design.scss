@@ -27,3 +27,11 @@
   opacity: 0.25;
   margin-bottom: 80px;
 }
+.slider-image {
+  max-height: 800px;
+}
+.slider-color {
+  > * {
+    color: $secondaryTextColor;
+  }
+}

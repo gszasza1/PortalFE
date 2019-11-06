@@ -1,10 +1,11 @@
-import { connect } from "react-redux";
-import { Dispatch, bindActionCreators } from "redux";
-import { IApllicationState } from "../../store";
-import { HeaderUnconnected } from "./component";
-import { toogle } from "./actions/toogleTheme.action";
-import { THEMES } from "./store";
-import { CheckloginData } from "../../user/actions/checkLogin.get";
+import { connect } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
+
+import { IApllicationState, resetEverything } from '../../store';
+import { CheckloginData } from '../../user/actions/checkLogin.get';
+import { toogle } from './actions/toogleTheme.action';
+import { HeaderUnconnected } from './component';
+import { THEMES } from './store';
 
 const mapStateToProps = (state: IApllicationState): MappedProps => {
   return {
@@ -17,7 +18,8 @@ const mapStateToProps = (state: IApllicationState): MappedProps => {
 const mapDispatchToProps = (dispatch: Dispatch): DispachedProps =>
   bindActionCreators(
     {
-      toogle: toogle
+      toogle: toogle,
+      logout: resetEverything
     },
     dispatch
   );
@@ -29,6 +31,7 @@ export const Header = connect(
 
 export interface DispachedProps {
   toogle: Function;
+  logout: () => void;
 }
 export interface MappedProps {
   isConnected: boolean;

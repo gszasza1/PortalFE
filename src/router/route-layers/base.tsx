@@ -27,14 +27,12 @@ export class RouteLayerUnconnected extends React.Component<Props> {
             path={BASE_PATHS.PUBLICPAGE}
             component={PublicPage}
             exact
-            {...this.props}
           ></Route>
 
           <Route path={BASE_PATHS.REGISTER} component={Register}></Route>
           <Route path={BASE_PATHS.LOGIN} component={Login}></Route>
-          {this.props.isConnected && (
-            <Route to={BASE_PATHS.AUTH} component={AuthorizedLayer}></Route>
-          )}
+          <Route path={BASE_PATHS.AUTH} component={AuthorizedLayer}></Route>
+          <Redirect to={BASE_PATHS.PUBLICPAGE} />
           <Redirect push from="*" to={BASE_PATHS.PUBLICPAGE} />
         </Switch>
       </Suspense>

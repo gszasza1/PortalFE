@@ -2,5 +2,6 @@ export const AUTH_PATH = {
   GAME: "/game",
   EXCERCISES: "/excercises",
   USER: "/user",
-  RANK: "/rank"
+  RANK: "/rank",
+  NEWS: "/news"
 };

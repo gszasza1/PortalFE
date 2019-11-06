@@ -65,3 +65,8 @@ a {
   align-self: flex-end;
   padding: 6px;
 }
+.user-modal {
+  > * {
+    background-color: $secondColor;
+  }
+}

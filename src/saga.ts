@@ -1,9 +1,12 @@
-import { all, call } from "redux-saga/effects";
-import { watchWelcomePage } from "./pages/public-page/slider-page/saga";
-import { watchExcercises } from "./pages/excercises/saga";
-import { watchRegister } from "./pages/register/saga";
-import { watchLogin } from "./pages/login/saga";
-import { watchCheckLogin } from "./user/saga";
+import { all, call } from 'redux-saga/effects';
+
+import { watchUserData } from './components/user-data/saga';
+import { watchExcercises } from './pages/excercises/saga';
+import { watchLogin } from './pages/login/saga';
+import { watchWelcomePage } from './pages/public-page/card-page/saga';
+import { watchRank } from './pages/rank/saga';
+import { watchRegister } from './pages/register/saga';
+import { watchCheckLogin } from './user/saga';
 
 export function* rootSaga() {
   yield all([
@@ -11,6 +14,8 @@ export function* rootSaga() {
     call(watchExcercises),
     call(watchRegister),
     call(watchLogin),
-    call(watchCheckLogin)
+    call(watchRank),
+    call(watchCheckLogin),
+    call(watchUserData)
   ]);
 }
