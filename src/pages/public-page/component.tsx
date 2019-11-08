@@ -1,8 +1,9 @@
-import React from "react";
-import { SliderPage } from "./slider-page/connect";
-import { CardPage } from "./card-page/connect";
-import { Items } from "../../constant/items";
-import { WelcomePage } from "./welcome-page/component";
+import React from 'react';
+
+import { Items } from '../../constant/items';
+import { CardPage } from './card-page/connect';
+import { SliderPage } from './slider-page/component';
+import { WelcomePage } from './welcome-page/component';
 
 export default class PublicPage extends React.Component {
   render() {

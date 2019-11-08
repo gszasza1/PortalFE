@@ -1,4 +1,4 @@
-import { IMinimizedLoginData } from "../../Client";
+import { IMinimizedLoginData } from '../../Client';
 
 export interface ICheckloginActionTypes {
   REQUEST: "Check login request";
@@ -11,9 +11,7 @@ export const CheckloginActionTypes: ICheckloginActionTypes = {
   SUCCESS: "Check login sucess",
   ERROR: "Check login error"
 };
-export interface CheckloginParams {
-  currentUrl: string;
-}
+export interface CheckloginParams {}
 export interface CheckloginData extends IMinimizedLoginData {}
 
 //ACTIONHOZ

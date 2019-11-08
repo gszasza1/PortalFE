@@ -1,69 +1,19 @@
-import { put, takeEvery } from "redux-saga/effects";
+import { call, put, takeEvery } from 'redux-saga/effects';
 
+import { NewsClient } from '../../../Client';
+import { BaseUrl } from '../../../config/api';
 import {
-  WelcomePageActionTypes,
-  IWelcomePageRequest,
-  getWelcomePageDataSuccess,
   getWelcomePageDataError,
-  welcomePageData
-} from "./actions/welcome.get";
+  getWelcomePageDataSuccess,
+  IWelcomePageRequest,
+  WelcomePageActionTypes,
+} from './actions/welcome.get';
 
 function* handleRequest(action: IWelcomePageRequest) {
   try {
-    const data: welcomePageData = {
-      db: [
-        {
-          secondTitle: "asdasdasd",
-          title: "Nagy asd"
-        },
-        {
-          secondTitle: "fdgdfgdfg",
-          title: "12123"
-        },
-        {
-          secondTitle: "fghfghfghfghfghfgh",
-          title: "234234"
-        }
-      ],
-      cards: [
-        {
-          cardText: "asdasd",
-          id: "1",
-          img: "src/assets/tempImage.png",
-          subtitle: "subtitle",
-          title: "title"
-        },
-        {
-          cardText: "asdasd",
-          id: "2",
-          img: "src/assets/tempImage.png",
-          subtitle: "subtitle",
-          title: "title"
-        },
-        {
-          cardText: "asdasd",
-          id: "3",
-          img: "src/assets/tempImage.png",
-          subtitle: "subtitle",
-          title: "title"
-        },
-        {
-          cardText: "asdasd",
-          id: "4",
-          img: "src/assets/tempImage.png",
-          subtitle: "subtitle",
-          title: "title"
-        },
-        {
-          cardText: "asdasd",
-          id: "5",
-          img: "src/assets/tempImage.png",
-          subtitle: "subtitle",
-          title: "title"
-        }
-      ]
-    };
-    yield put(getWelcomePageDataSuccess(data));
+    const result = yield call(api, action);
+
+    yield put(getWelcomePageDataSuccess({ data: result }));
   } catch (err) {
     yield put(getWelcomePageDataError(err));
   }
@@ -72,3 +22,14 @@ function* handleRequest(action: IWelcomePageRequest) {
 export function* watchWelcomePage() {
   yield takeEvery(WelcomePageActionTypes.REQUEST, handleRequest);
 }
+const api = (action: IWelcomePageRequest) => {
+  const client = new NewsClient(BaseUrl);
+  return client
+    .get(10)
+    .then(response => {
+      return response;
+    })
+    .catch(error => {
+      return error;
+    });
+};

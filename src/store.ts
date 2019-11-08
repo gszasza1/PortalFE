@@ -9,6 +9,7 @@ import { userReducer } from './user/reducer';
 export interface AppState {
   pages: PagesState;
   user: UserState;
+
   theme: themeState;
 }
 

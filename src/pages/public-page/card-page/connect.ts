@@ -1,19 +1,36 @@
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
 
-import { CardPageUnconnected } from "./component";
-import { IApllicationState } from "../../../store";
-import { GameCardProps } from "../../../components/game-card/card";
+import { GeneralProps } from '../../../functions/interfaces';
+import { IApllicationState } from '../../../store';
+import { getWelcomePageData, welcomePageData, welcomePageParams } from './actions/welcome.get';
+import { CardPageUnconnected } from './component';
+
 const mapStateToProps = (state: IApllicationState): MappedProps => {
   return {
-    items: state.app.pages.welcomePage.data
-      ? state.app.pages.welcomePage.data.cards
-      : []
+    data: state.app.pages.welcomePage.data
+      ? state.app.pages.welcomePage.data.data
+      : undefined,
+    error: state.app.pages.welcomePage.error,
+    isLoaded: state.app.pages.welcomePage.isLoaded,
+    isRequesting: state.app.pages.welcomePage.isRequesting
   };
 };
+const mapDispatchToProps = (dispatch: Dispatch): DispachedProps =>
+  bindActionCreators(
+    {
+      getWelcomePageData: getWelcomePageData
+    },
+    dispatch
+  );
 
-export const CardPage = connect(mapStateToProps)(CardPageUnconnected);
+export const CardPage = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CardPageUnconnected);
 
-export interface DispachedProps {}
-export interface MappedProps {
-  items: GameCardProps[];
+export interface DispachedProps {
+  getWelcomePageData: (params: welcomePageParams) => void;
 }
+interface MappedProps extends GeneralProps, welcomePageData {}
+export interface WelcomePageProps extends DispachedProps, MappedProps {}

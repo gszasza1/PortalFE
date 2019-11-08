@@ -1,0 +1,11 @@
+.card-backgound {
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  > p {
+    font-size: 80px;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+}

@@ -1,26 +1,38 @@
 @import "../../../design/variables.scss";
-.new-form {
-  max-width: 700px;
-  margin: auto;
-  margin-top: 5vh;
-  background-color: $secondColor;
-  padding: 20px;
-  border-radius: 30px;
-  display: flex;
-  flex-direction: column;
-  > * {
-    margin: 10px;
-    width: initial;
-    text-align: left;
-  }
-  div {
+.news-form-editor-container {
+  .new-form {
+    background-color: $secondColor;
+    padding: 20px;
+    flex: 1;
+    margin-right: 20px;
+    border-radius: 30px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     > * {
-      margin-right: 10px;
+      margin: 10px;
+      width: initial;
+      text-align: left;
+    }
+    div {
+      display: flex;
+      flex-direction: row;
+      > * {
+        margin-right: 10px;
+      }
+    }
+    textarea {
+      min-height: 100px;
     }
   }
-  textarea {
-    min-height: 100px;
+  display: flex;
+  margin: auto;
+  align-content: center;
+  max-width: 900px;
+  margin-top: 5vh;
+  h3 {
+    text-align: left;
+    margin: 0;
+    font-weight: 600;
+    margin-bottom: 10px;
   }
 }

@@ -1,10 +1,10 @@
-import * as React from "react";
+import './design.scss';
 
-import "./design.scss";
-import { LoginStoreProps } from "./connect";
-import { Formik, Form as FormikForm, Field, ErrorMessage } from "formik";
-import { Button } from "../../components/button/component";
-import { Label } from "reactstrap";
+import { ErrorMessage, Field, Form as FormikForm, Formik } from 'formik';
+import * as React from 'react';
+import { Button, Label } from 'reactstrap';
+
+import { LoginStoreProps } from './connect';
 
 interface Props extends LoginStoreProps {}
 
@@ -71,11 +71,9 @@ export class LoginUnConnected extends React.PureComponent<Props, State> {
                   <ErrorMessage name="password" />
                 </li>
               </ul>
-              <Button
-                id="sendbutton"
-                type="submit"
-                text={this.props.isRequesting ? "Betöltés" : "Küldés"}
-              ></Button>
+              <Button id="sendbutton" type="submit" class="button">
+                {this.props.isRequesting ? "Betöltés" : "Küldés"}
+              </Button>
               {this.props.error && <p>Hiba történt</p>}
             </FormikForm>
           </Formik>

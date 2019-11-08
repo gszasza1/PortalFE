@@ -1,19 +1,25 @@
 import React from 'react';
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router';
 
-import { NewsForm } from '../../pages/news/form/component';
-import ScoreRankForm from '../../pages/rank/score/connect';
+import { CreateNewsForm } from '../../pages/news/create/connect';
+import { EditNewsFormConnected } from '../../pages/news/edit/connect';
+import SingleNews from '../../pages/news/single-news/connect';
 import { NEWS_PATH } from '../paths/news';
 
 const NewsRouterLayer = (props: RouteComponentProps) => {
   return (
     <Switch>
       <Route path={props.match.url + NEWS_PATH.CREATE} exact>
-        <NewsForm></NewsForm>
+        <CreateNewsForm></CreateNewsForm>
       </Route>
       <Route path={props.match.url + NEWS_PATH.EDIT} exact>
-        <ScoreRankForm></ScoreRankForm>
+        <EditNewsFormConnected></EditNewsFormConnected>
       </Route>
+      <Route
+        path={props.match.url + NEWS_PATH.SINGLE}
+        exact
+        render={routeProps => <SingleNews {...routeProps} />}
+      ></Route>
       <Redirect
         path=""
         exact

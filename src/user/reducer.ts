@@ -1,14 +1,7 @@
-import { initialState, UserState } from ".";
-import { CheckloginActionTypes, IChecklogin } from "./actions/checkLogin.get";
-import {
-  genericSuccessState,
-  genericRequestState,
-  genericErrorState
-} from "../template/action";
-import {
-  LoginPostActionTypes,
-  IPostLogin
-} from "../pages/login/actions/login.post";
+import { initialState, UserState } from '.';
+import { IPostLogin, LoginPostActionTypes } from '../pages/login/actions/login.post';
+import { genericErrorState, genericRequestState, genericSuccessState } from '../template/action';
+import { CheckloginActionTypes, IChecklogin } from './actions/checkLogin.get';
 
 type Action = IChecklogin | IPostLogin;
 export const userReducer = (

@@ -3,6 +3,7 @@ import { all, call } from 'redux-saga/effects';
 import { watchUserData } from './components/user-data/saga';
 import { watchExcercises } from './pages/excercises/saga';
 import { watchLogin } from './pages/login/saga';
+import { watchNews } from './pages/news/saga';
 import { watchWelcomePage } from './pages/public-page/card-page/saga';
 import { watchRank } from './pages/rank/saga';
 import { watchRegister } from './pages/register/saga';
@@ -16,6 +17,7 @@ export function* rootSaga() {
     call(watchLogin),
     call(watchRank),
     call(watchCheckLogin),
-    call(watchUserData)
+    call(watchUserData),
+    call(watchNews)
   ]);
 }

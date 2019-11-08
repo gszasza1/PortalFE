@@ -1,23 +1,28 @@
-import React from "react";
-import { GameCard } from "../../../components/game-card/card";
-import { MappedProps } from "./connect";
-import "./design.scss";
+import './design.scss';
 
-interface Props extends MappedProps {}
+import React from 'react';
+
+import { GameCard } from '../../../components/game-card/card';
+import { WelcomePageProps } from './connect';
+
+interface Props extends WelcomePageProps {}
 export class CardPageUnconnected extends React.Component<Props> {
+  componentDidMount() {
+    this.props.getWelcomePageData({});
+  }
   render() {
     return (
       <div className="news">
-        {this.props.items.map(item => (
-          <GameCard
-            cardText={item.cardText}
-            title={item.title}
-            subtitle={item.subtitle}
-            key={item.id}
-            id={item.id}
-            img={item.img}
-          ></GameCard>
-        ))}
+        {this.props.data &&
+          this.props.data.map(item => (
+            <GameCard
+              cardText={item.description}
+              title={item.title}
+              subtitle={item.link}
+              key={item.id}
+              id={item.id}
+            ></GameCard>
+          ))}
       </div>
     );
   }

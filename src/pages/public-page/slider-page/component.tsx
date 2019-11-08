@@ -6,22 +6,17 @@ import { Carousel, CarouselCaption, CarouselControl, CarouselIndicators, Carouse
 import Game from '../../../assets/game.svg';
 import Homework from '../../../assets/homework.svg';
 import Ranklist from '../../../assets/ranklist.svg';
-import { DispachedProps, MappedProps } from './connect';
 
-interface Props extends MappedProps, DispachedProps {}
+interface Props {}
 interface State {
   activeIndex: number;
   animating: boolean;
 }
 
-export class SliderPageUnconnected extends React.Component<Props, State> {
+export class SliderPage extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = { activeIndex: 0, animating: false };
-  }
-
-  componentDidMount() {
-    this.props.getWelcomePageData();
   }
 
   onExiting = () => {
@@ -35,7 +30,7 @@ export class SliderPageUnconnected extends React.Component<Props, State> {
   next = () => {
     if (this.state.animating) return;
     const nextIndex =
-      this.state.activeIndex === this.props.items.db.length - 1
+      this.state.activeIndex === items.length - 1
         ? 0
         : this.state.activeIndex + 1;
     this.setState({ activeIndex: nextIndex });
@@ -45,7 +40,7 @@ export class SliderPageUnconnected extends React.Component<Props, State> {
     if (this.state.animating) return;
     const nextIndex =
       this.state.activeIndex === 0
-        ? this.props.items.db.length - 1
+        ? items.length - 1
         : this.state.activeIndex - 1;
     this.setState({ activeIndex: nextIndex });
   };

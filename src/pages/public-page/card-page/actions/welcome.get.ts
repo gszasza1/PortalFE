@@ -1,4 +1,4 @@
-import { GameCardProps } from "../../../../components/game-card/card";
+import { INew } from '../../../../Client';
 
 export interface IWelcomePageActionTypes {
   REQUEST: "WelcomePage request";
@@ -13,8 +13,7 @@ export const WelcomePageActionTypes: IWelcomePageActionTypes = {
 };
 export interface welcomePageParams {}
 export interface welcomePageData {
-  db: Array<{ img?: string; title: string; secondTitle: string }>;
-  cards: GameCardProps[];
+  data?: INew[];
 }
 
 //ACTIONHOZ

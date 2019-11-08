@@ -1,0 +1,51 @@
+@import "../../../design/variables.scss";
+.bomb-seeker {
+  margin: auto;
+  margin-top: 5vh;
+  min-width: 400px;
+  > div {
+    display: inline-block;
+    height: 40px;
+    width: 40px;
+    border: 1px solid red;
+    cursor: pointer;
+  }
+
+  > .next-line {
+    display: block;
+    border: none;
+    max-width: 0;
+    max-height: 0;
+    line-height: 0;
+  }
+  .hide {
+    background-color: grey;
+  }
+  .revelead {
+    background-color: white;
+    > p {
+      color: black;
+    }
+  }
+  .gameover {
+    background-color: red;
+  }
+  .flagged {
+    border: 1px solid blue;
+  }
+}
+.bomb-seeker-options {
+  display: flex;
+  margin: auto;
+  max-width: 400px;
+  margin-top: 2vh;
+  padding: 10px;
+  background-color: $secondColor;
+  border-radius: 15px;
+  justify-content: space-evenly;
+  > * {
+    cursor: pointer;
+    font-size: 20px;
+    font-size: bold;
+  }
+}

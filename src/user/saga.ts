@@ -1,9 +1,9 @@
 import { push } from 'connected-react-router';
-import { all, call, put, takeEvery } from 'redux-saga/effects';
+import { all, call, put, select, takeEvery } from 'redux-saga/effects';
 
 import { AccountClient, IMinimizedLoginData } from '../Client';
 import { BaseUrl } from '../config/api';
-import { ResetActionTypes } from '../store';
+import { IApllicationState, ResetActionTypes } from '../store';
 import {
   CheckloginActionTypes,
   getCheckloginDataError,
@@ -27,13 +27,22 @@ function* handleGetRequest(action: ICheckloginRequest) {
   try {
     const result = yield call(api);
     yield put(getCheckloginDataSuccess(result));
-    yield put(push(action.params.currentUrl));
   } catch (err) {
     yield put(getCheckloginDataError(err));
   }
 }
+function* handleSuccess() {
+  const url: string = yield select((state: IApllicationState) => {
+    return state.app.user.currentUrl;
+  });
+  yield put(push(url));
+}
+
 function* handleLogout() {
   yield put(push(""));
+}
+export function* navigate() {
+  yield takeEvery(CheckloginActionTypes.SUCCESS, handleSuccess);
 }
 
 export function* checkLogin() {
@@ -44,5 +53,5 @@ export function* checklogout() {
 }
 
 export function* watchCheckLogin() {
-  yield all([call(checkLogin), call(checklogout)]);
+  yield all([call(checkLogin), call(checklogout), call(navigate)]);
 }

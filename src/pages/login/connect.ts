@@ -1,16 +1,16 @@
-import { connect } from "react-redux";
-import { Dispatch, bindActionCreators } from "redux";
+import { connect } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
 
-import { LoginUnConnected } from "./component";
-import { postLoginData, postLoginDataModify } from "./actions/login.post";
-import { IApllicationState } from "../../store";
-import { GeneralProps } from "../../functions/interfaces";
+import { GeneralProps } from '../../functions/interfaces';
+import { IApllicationState } from '../../store';
+import { postLoginData, postLoginDataModify } from './actions/login.post';
+import { LoginUnConnected } from './component';
+
 const mapStateToProps = (state: IApllicationState): MappedProps => {
   return {
-    isRequesting:state.app.pages.login.isRequesting,
-    error:state.app.pages.login.error,
-    isLoaded:state.app.pages.login.isLoaded
-
+    isRequesting: state.app.pages.login.isRequesting,
+    error: state.app.pages.login.error,
+    isLoaded: state.app.pages.login.isLoaded
   };
 };
 
@@ -32,9 +32,7 @@ export interface DispachedProps {
   LoginSend: Function;
   modifyLoginData: Function;
 }
-export interface MappedProps extends GeneralProps {
-
-}
+export interface MappedProps extends GeneralProps {}
 
 export type LoginStoreProps = MappedProps & DispachedProps;
 
