@@ -1,11 +1,11 @@
-import { connect } from "react-redux";
-import { Dispatch, bindActionCreators } from "redux";
+import { connect } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
 
-import { IApllicationState } from "../../../store";
-import { AgeRankData, getAgeRankData } from ".";
-import RankFormWithRouter from "../../../components/rank-form/connect";
-import { GeneralProps } from "../../../functions/interfaces";
-import { DispachedProps, MappedProps } from "../interface";
+import { getAgeRankData } from '.';
+import RankFormWithRouter from '../../../components/rank-form/connect';
+import { IApllicationState } from '../../../store';
+import { DispachedProps, MappedProps } from '../interface';
+
 const mapStateToProps = (state: IApllicationState): MappedProps => {
   return {
     data: state.app.pages.rank.age.data,

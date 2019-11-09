@@ -1,4 +1,4 @@
-import { RankUsersOfInteger, IRankUsersOfInteger } from "../../../../Client";
+import { IRankUsersOfInteger } from '../../../../Client';
 
 export interface IAgeRankActionTypes {
   REQUEST: "AgeRank request";

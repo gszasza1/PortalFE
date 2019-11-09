@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, RouteComponentProps } from 'react-router';
 
+import { Self } from '../../pages/self/component';
 import { AUTH_PATH } from '../paths/auth';
 import ExcerciseRouterLayer from './excercise';
 import GameRouterLayer from './game';
@@ -10,6 +11,11 @@ import RankRouterLayer from './rank';
 export const AuthorizedLayer = (props: RouteComponentProps<{}>) => {
   return (
     <>
+      <Route
+        path={props.match.url + AUTH_PATH.SELF}
+        exact
+        component={Self}
+      ></Route>
       <Route
         path={props.match.url + AUTH_PATH.EXCERCISES}
         {...props}

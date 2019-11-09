@@ -15,7 +15,6 @@ interface Props extends SingleNewsProps, RouteComponentProps<NewsRouteProps> {}
 export class SingleNewsUnconnected extends React.Component<Props> {
   componentDidMount() {
     if (this.props.match.params.id) {
-      console.log(this.props.match.params.id);
       this.props.SingleNewsGetData({ id: this.props.match.params.id });
     }
   }

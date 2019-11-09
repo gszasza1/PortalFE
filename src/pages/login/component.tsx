@@ -71,7 +71,7 @@ export class LoginUnConnected extends React.PureComponent<Props, State> {
                   <ErrorMessage name="password" />
                 </li>
               </ul>
-              <Button id="sendbutton" type="submit" class="button">
+              <Button id="sendbutton" type="submit" className="button">
                 {this.props.isRequesting ? "Betöltés" : "Küldés"}
               </Button>
               {this.props.error && <p>Hiba történt</p>}

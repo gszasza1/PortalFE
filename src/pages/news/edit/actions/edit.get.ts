@@ -1,5 +1,3 @@
-import { GameCardProps } from "../../../../components/game-card/card";
-
 export interface IGetEditNewsFormActionTypes {
   REQUEST: "GetEditNewsForm request";
   SUCCESS: "GetEditNewsForm sucess";
@@ -12,10 +10,9 @@ export const GetEditNewsFormActionTypes: IGetEditNewsFormActionTypes = {
   ERROR: "GetEditNewsForm error"
 };
 export interface GetEditNewsFormParams {
-    id:string | null | undefined
+  id: string | null | undefined;
 }
-export interface GetEditNewsFormData {
-}
+export interface GetEditNewsFormData {}
 
 //ACTIONHOZ
 export interface IGetEditNewsFormRequest {
@@ -45,7 +42,9 @@ export const getGetEditNewsFormData = (
   params
 });
 
-export const getGetEditNewsFormDataError = (error?: string): IGetEditNewsFormError => ({
+export const getGetEditNewsFormDataError = (
+  error?: string
+): IGetEditNewsFormError => ({
   type: GetEditNewsFormActionTypes.ERROR,
   error
 });

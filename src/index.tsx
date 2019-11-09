@@ -1,16 +1,22 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import "./index.css";
-import * as serviceWorker from "./serviceWorker";
-import { Provider } from "react-redux";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { ConnectedRouter } from "connected-react-router";
-import { createBrowserHistory } from "history";
-import { configureStore } from "./config/ConfigureStore";
-import { App } from "./connect";
-import axios from "axios";
-import qs from "qs";
-import { BaseUrl } from "./config/api";
+import './index.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'primeicons/primeicons.css';
+import 'primereact/resources/primereact.min.css';
+import 'primereact/resources/themes/nova-light/theme.css';
+
+import axios from 'axios';
+import { ConnectedRouter } from 'connected-react-router';
+import { createBrowserHistory } from 'history';
+import qs from 'qs';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+
+import { BaseUrl } from './config/api';
+import { configureStore } from './config/ConfigureStore';
+import { App } from './connect';
+import * as serviceWorker from './serviceWorker';
+
 const history = createBrowserHistory({ basename: "/" });
 const { store } = configureStore(history);
 axios.defaults.headers.common = {
@@ -40,9 +46,9 @@ axios.interceptors.response.use(
 
       const requestBody = qs.stringify({
         refresh_token: localStorage.getItem("refresh_token"),
-        client_id: "undersea_client",
-        client_secret: "undersea_client_secret",
-        scope: "offline_access undersea_api",
+        client_id: "portal_client",
+        client_secret: "portal_client_secret",
+        scope: "offline_access portal_api",
         grant_type: "refresh_token"
       });
       const url = BaseUrl + "connect/token";

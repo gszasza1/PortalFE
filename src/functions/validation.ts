@@ -1,4 +1,4 @@
-import * as Yup from "yup";
+import * as Yup from 'yup';
 
 export const SignupSchema = Yup.object().shape({
   name: Yup.string()
@@ -15,6 +15,7 @@ export const SignupSchema = Yup.object().shape({
   numberText: Yup.number().integer("Nem számformátum"),
   number: Yup.number().truncate(),
   age: Yup.string()
+    // eslint-disable-next-line
     .matches(/^(\(?\+?[0-9]*\)?)?[0-9_\- \(\)]*$/, "Hibás formátum")
     .max(12, "Nem létezik")
     .min(1, "Nem létezik")

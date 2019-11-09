@@ -1,12 +1,8 @@
-import { put, takeEvery, all, call } from "redux-saga/effects";
-import {
-  IScoreRankRequest,
-  getScoreRankDataSuccess,
-  getScoreRankDataError,
-  ScoreRankActionTypes
-} from ".";
-import { BaseUrl } from "../../../config/api";
-import { AccountClient } from "../../../Client";
+import { call, put, takeEvery } from 'redux-saga/effects';
+
+import { getScoreRankDataError, getScoreRankDataSuccess, IScoreRankRequest, ScoreRankActionTypes } from '.';
+import { AccountClient } from '../../../Client';
+import { BaseUrl } from '../../../config/api';
 
 function* handleRequest(action: IScoreRankRequest) {
   try {

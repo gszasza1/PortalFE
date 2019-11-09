@@ -1,0 +1,14 @@
+@import "../../../design/variables.scss";
+
+.rank-selector {
+  max-width: 70%;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  * {
+    color: $secondaryTextColor;
+  }
+  > * {
+    margin: 10px;
+  }
+}

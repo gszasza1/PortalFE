@@ -1,3 +1,4 @@
 export const GAME_PATH = {
-  BOMBSEEKER: "/bombseeker"
+  BOMBSEEKER: "/bombseeker",
+  LIST:""
 };

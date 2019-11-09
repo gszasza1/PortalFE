@@ -1,0 +1,27 @@
+@import "../../../design/variables.scss";
+.new-list-wrapper {
+  background-color: $secondColor;
+  max-width: 70%;
+  margin: auto;
+  margin-top: 4vh;
+  padding: 20px;
+  border-radius: 20px;
+  span,
+  p,
+  .loading {
+    color: $secondaryTextColor;
+  }
+  .new-list-container {
+    .p-accordion .p-accordion-header a {
+      background-color: $secondColor;
+    }
+    .news-accordion-footer {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding-right: 10px;
+      padding-left: 10px;
+      margin: 10px;
+    }
+  }
+}

@@ -13,6 +13,9 @@ const GameRouterLayer = (props: RouteComponentProps) => {
       <Route path={props.match.url + GAME_PATH.BOMBSEEKER} exact>
         <BombSeeker></BombSeeker>
       </Route>
+      <Route path={props.match.url + GAME_PATH.LIST} exact>
+        <BombSeeker></BombSeeker>
+      </Route>
 
       <Redirect
         path=""
