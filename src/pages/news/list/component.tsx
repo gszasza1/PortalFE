@@ -33,7 +33,7 @@ export class NewsListUnconnected extends React.Component<Props> {
                   </ScrollPanel>
                   <div className="news-accordion-footer">
                     <p>{new Date(item.date).toLocaleDateString()}</p>
-                    <p>{item.creator && item.creator.userName}</p>
+                    <p>{item.creator && item.creator}</p>
                   </div>
                 </AccordionTab>
               ))}

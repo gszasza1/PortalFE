@@ -1,22 +1,22 @@
-import * as React from "react";
-import { InputAnswerStoreProps } from "./connect";
+import './design.scss';
 
-import "./design.scss";
-import { CountDown } from "../../../components/timer/component";
-import QuestionMark from "../../../assets/question_mark.svg";
-import { Tooltip, Input } from "reactstrap";
-import { Button } from "../../../components/button/component";
-interface Props extends InputAnswerStoreProps {}
+import * as React from 'react';
+import { Input, Tooltip } from 'reactstrap';
 
-export class InputAnswerUnConnected extends React.PureComponent<Props> {
+import QuestionMark from '../../../../assets/question_mark.svg';
+import { Button } from '../../../../components/button/component';
+import { CountDown } from '../../../../components/timer/component';
+import { RandomStoreProps } from './connect';
+
+interface Props extends RandomStoreProps {}
+
+export class RandomUnconnected extends React.PureComponent<Props> {
   state = {
     disabled: false,
     tooltipOpen: false
   };
   componentDidMount() {
-    if (this.props.items === undefined) {
-      this.props.getInputAnswerData();
-    }
+    this.props.getInputAnswerData();
   }
   toggle = () => {
     this.setState({

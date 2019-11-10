@@ -1,6 +1,6 @@
 export const EXCECISE_PATH = {
-  ABCD: "/abcd",
-  INPUTNUMBER: "/inputnumber",
   LIST: "",
+  ABCD: "/abcd",
+  INPUT: "/input",
   TESZT: "/teszt"
 };

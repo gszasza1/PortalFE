@@ -1,26 +1,23 @@
-import {
-  genericInitialState,
-  GenericStateExtended
-} from "../../../template/action";
-import { InputAnswerParams, InputAnswerData } from "./actions/input-answer.get";
-import {
-  InputAnswerPostParams,
-  InputAnswerPostData
-} from "./actions/input-answer.post";
+import { combineReducers } from 'redux';
 
-export interface InputAnswerState
-  extends GenericStateExtended<
-    InputAnswerParams,
-    InputAnswerData,
-    InputAnswerPostParams,
-    InputAnswerPostData
-  > {}
-export const initialState: InputAnswerState = {
-  ...genericInitialState(),
-  data: undefined,
-  params: undefined,
-  postParams: undefined,
-  postData: { answerCorrect: undefined },
-  postSentNumber: 0,
-  postError: undefined
-};
+import { CreateInputExcerciseFormReducer } from './create/reducer';
+import { CreateInputExcerciseFormState } from './create/store';
+import { EditInputExcerciseFormReducer } from './edit/reducer';
+import { EditInputExcerciseFormState } from './edit/store';
+import { InputExcerciseFormReducer } from './form/reducer';
+import { InputExcerciseFormState } from './form/store';
+import { RandomState } from './random';
+import { RandomStateReducer } from './random/reducer';
+
+export interface InputExcerciseState {
+  form: InputExcerciseFormState;
+  random: RandomState;
+  create: CreateInputExcerciseFormState;
+  edit: EditInputExcerciseFormState;
+}
+export const InputExcerciseReducer = combineReducers<InputExcerciseState>({
+  form: InputExcerciseFormReducer,
+  random: RandomStateReducer,
+  create: CreateInputExcerciseFormReducer,
+  edit: EditInputExcerciseFormReducer
+});

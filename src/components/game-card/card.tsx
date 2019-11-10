@@ -10,7 +10,7 @@ export interface GameCardProps {
   title?: string;
   subtitle?: string;
   cardText?: string;
-  id?: string;
+  id?: number;
 }
 
 export const GameCard = (props: GameCardProps) => {

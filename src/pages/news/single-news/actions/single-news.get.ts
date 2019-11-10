@@ -12,7 +12,7 @@ export const SingleNewsGetActionTypes: ISingleNewsGetActionTypes = {
   ERROR: "SingleNews get error"
 };
 export interface SingleNewsGetParams {
-  id: string;
+  id: number;
 }
 export interface SingleNewsGetData extends INew {}
 

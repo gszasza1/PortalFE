@@ -1,22 +1,14 @@
-import {
-  genericRequestState,
-  genericSuccessState,
-  genericErrorState
-} from "../../../template/action";
-
-import {
-  IInputAnswer,
-  InputAnswerActionTypes
-} from "./actions/input-answer.get";
-import { initialState, InputAnswerState } from "./store";
-import { IPostInputAnswer, InputAnswerPostActionTypes } from "./actions/input-answer.post";
+import { genericErrorState, genericRequestState, genericSuccessState } from '../../../../template/action';
+import { IInputAnswer, InputAnswerActionTypes } from './actions/input-answer.get';
+import { InputAnswerPostActionTypes, IPostInputAnswer } from './actions/input-answer.post';
+import { initialState, RandomState } from './store';
 
 type Action = IInputAnswer | IPostInputAnswer;
 
-export const inputAnswerReducer = (
+export const RandomStateReducer = (
   state = initialState,
   action: Action
-): InputAnswerState => {
+): RandomState => {
   switch (action.type) {
     case InputAnswerActionTypes.SUCCESS: {
       state = {

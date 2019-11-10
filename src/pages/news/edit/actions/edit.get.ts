@@ -10,7 +10,7 @@ export const GetEditNewsFormActionTypes: IGetEditNewsFormActionTypes = {
   ERROR: "GetEditNewsForm error"
 };
 export interface GetEditNewsFormParams {
-  id: string | null | undefined;
+  id: number | undefined;
 }
 export interface GetEditNewsFormData {}
 
