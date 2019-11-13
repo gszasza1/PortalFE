@@ -16,7 +16,7 @@ const mapDispatchToProps = (dispatch: Dispatch): SubmitFormProps =>
   bindActionCreators(
     {
       submitForm: CreateInputExcerciseFormData,
-      getData: () => {}
+    
     },
     dispatch
   );

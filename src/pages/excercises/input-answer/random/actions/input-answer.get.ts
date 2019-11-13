@@ -1,7 +1,4 @@
-interface InputAnswerExcercise {
-  id: string;
-  text: string;
-}
+import { IInputRandom } from '../../../../../Client';
 
 export interface IInputAnswerActionTypes {
   REQUEST: "InputAnswer request";
@@ -16,7 +13,7 @@ export const InputAnswerActionTypes: IInputAnswerActionTypes = {
 };
 export interface InputAnswerParams {}
 export interface InputAnswerData {
-  data: InputAnswerExcercise;
+  data?: IInputRandom;
 }
 
 //ACTIONHOZ
@@ -34,10 +31,15 @@ export interface IInputAnswerError {
 }
 
 //REDUCERHEZ
-export type IInputAnswer = IInputAnswerRequest | IInputAnswerSuccess | IInputAnswerError;
+export type IInputAnswer =
+  | IInputAnswerRequest
+  | IInputAnswerSuccess
+  | IInputAnswerError;
 
 //ACTIONCREATORHOZ
-export const getInputAnswerData = (params: InputAnswerParams): IInputAnswerRequest => ({
+export const getInputAnswerData = (
+  params: InputAnswerParams
+): IInputAnswerRequest => ({
   type: InputAnswerActionTypes.REQUEST,
   params
 });
@@ -46,7 +48,9 @@ export const getInputAnswerDataError = (error?: string): IInputAnswerError => ({
   type: InputAnswerActionTypes.ERROR,
   error
 });
-export const getInputAnswerDataSuccess = (data: InputAnswerData): IInputAnswerSuccess => ({
+export const getInputAnswerDataSuccess = (
+  data: InputAnswerData
+): IInputAnswerSuccess => ({
   type: InputAnswerActionTypes.SUCCESS,
   data
 });

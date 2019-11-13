@@ -50,7 +50,9 @@ const ExcerciseList = (props: RouteComponentProps<{}>) => {
             routerProps={props}
             key={item.path}
           ></ExcerciseCard>
-          <Link to={props.location.key + item.creator_path}>Új felvétele</Link>
+          <Link to={props.location.pathname + item.creator_path}>
+            Új felvétele
+          </Link>
         </div>
       ))}
     </div>

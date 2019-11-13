@@ -44,11 +44,11 @@ export const RandomStateReducer = (
         postParams: state.postParams
           ? {
               ...state.postParams,
-              answerId: action.params
+              answer: action.params
             }
           : {
-              id: state.data ? state.data.data.id : "",
-              answerId: action.params
+              id: state.data && state.data.data ? state.data.data.id : 0,
+              answer: action.params
             }
       };
       return state;

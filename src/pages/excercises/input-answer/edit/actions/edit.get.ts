@@ -1,4 +1,4 @@
-import { IInputExcercise } from '../../../../../Client';
+import { MinimizedInputExcercise } from '../../../../../Client';
 
 export interface IGetEditInputExcerciseFormActionTypes {
   REQUEST: "Get Edit InputExcercise Form request";
@@ -11,10 +11,11 @@ export const GetEditInputExcerciseFormActionTypes: IGetEditInputExcerciseFormAct
   SUCCESS: "Get Edit InputExcercise Form sucess",
   ERROR: "Get Edit InputExcercise Form error"
 };
-export interface GetEditInputExcerciseFormParams  {
-    id:number
+export interface GetEditInputExcerciseFormParams {
+  id: number;
 }
-export interface GetEditInputExcerciseFormData extends IInputExcercise{}
+export interface GetEditInputExcerciseFormData
+  extends MinimizedInputExcercise {}
 
 //ACTIONHOZ
 export interface IGetEditInputExcerciseFormRequest {

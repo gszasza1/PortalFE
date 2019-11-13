@@ -1,28 +1,24 @@
-import { put, takeEvery, all, call } from "redux-saga/effects";
+import { all, call, put, takeEvery } from 'redux-saga/effects';
+
+import { InputExcerciseClient } from '../../../../Client';
+import { BaseUrl } from '../../../../config/api';
 import {
-  InputAnswerActionTypes,
-  IInputAnswerRequest,
-  InputAnswerData,
+  getInputAnswerDataError,
   getInputAnswerDataSuccess,
-  getInputAnswerDataError
-} from "./actions/input-answer.get";
+  IInputAnswerRequest,
+  InputAnswerActionTypes,
+} from './actions/input-answer.get';
 import {
   InputAnswerPostActionTypes,
-  postInputAnswerDataSuccess,
+  IPostInputAnswerRequest,
   postInputAnswerDataError,
-  InputAnswerPostData,
-  IPostInputAnswerRequest
-} from "./actions/input-answer.post";
+  postInputAnswerDataSuccess,
+} from './actions/input-answer.post';
 
 function* handleRequest(action: IInputAnswerRequest) {
   try {
-    const data: InputAnswerData = {
-      data: {
-        text: "Mennyi egymegegy?",
-        id: "123123"
-      }
-    };
-    yield put(getInputAnswerDataSuccess(data));
+    const result = yield call(apiGet, action);
+    yield put(getInputAnswerDataSuccess({ data: result }));
   } catch (err) {
     yield put(getInputAnswerDataError(err));
   }
@@ -34,9 +30,7 @@ export function* getInputAnswer() {
 
 function* handlePostRequest(action: IPostInputAnswerRequest) {
   try {
-    const data: InputAnswerPostData = {
-      answerCorrect: "1"
-    };
+    const data = yield call(apiPost, action);
     yield put(postInputAnswerDataSuccess(data));
   } catch (err) {
     yield put(postInputAnswerDataError(err));
@@ -50,3 +44,28 @@ export function* postInputAnswer() {
 export function* watchInputAnswer() {
   yield all([call(getInputAnswer), call(postInputAnswer)]);
 }
+
+const apiGet = (action: IInputAnswerRequest) => {
+  const client = new InputExcerciseClient(BaseUrl);
+  return client
+    .getRandomInputExcercise()
+    .then(response => {
+      return response;
+    })
+    .catch(error => {
+      return error;
+    });
+};
+
+const apiPost = (action: IPostInputAnswerRequest) => {
+  const client = new InputExcerciseClient(BaseUrl);
+  if (action.params.answer)
+    return client
+      .postAnswer(action.params.id, action.params.answer)
+      .then(response => {
+        return response;
+      })
+      .catch(error => {
+        return error;
+      });
+};

@@ -336,7 +336,7 @@ export class InputExcerciseClient {
         this.baseUrl = baseUrl ? baseUrl : "";
     }
 
-    getRandomInputExcercise(): Promise<SendInputExcercise> {
+    getRandomInputExcercise(): Promise<InputRandom> {
         let url_ = this.baseUrl + "/api/InputExcercise/random";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -353,7 +353,7 @@ export class InputExcerciseClient {
         });
     }
 
-    protected processGetRandomInputExcercise(response: AxiosResponse): Promise<SendInputExcercise> {
+    protected processGetRandomInputExcercise(response: AxiosResponse): Promise<InputRandom> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -367,27 +367,26 @@ export class InputExcerciseClient {
             const _responseText = response.data;
             let result200: any = null;
             let resultData200  = _responseText;
-            result200 = SendInputExcercise.fromJS(resultData200);
+            result200 = InputRandom.fromJS(resultData200);
             return result200;
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<SendInputExcercise>(<any>null);
+        return Promise.resolve<InputRandom>(<any>null);
     }
 
-    getInputExcerciseById(id: number): Promise<InputExcercise> {
-        let url_ = this.baseUrl + "/api/InputExcercise";
+    getInputExcerciseById(id: number): Promise<InputExc> {
+        let url_ = this.baseUrl + "/api/InputExcercise/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(id);
-
         let options_ = <AxiosRequestConfig>{
-            data: content_,
             method: "GET",
             url: url_,
             headers: {
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             }
         };
@@ -397,7 +396,7 @@ export class InputExcerciseClient {
         });
     }
 
-    protected processGetInputExcerciseById(response: AxiosResponse): Promise<InputExcercise> {
+    protected processGetInputExcerciseById(response: AxiosResponse): Promise<InputExc> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -411,57 +410,13 @@ export class InputExcerciseClient {
             const _responseText = response.data;
             let result200: any = null;
             let resultData200  = _responseText;
-            result200 = InputExcercise.fromJS(resultData200);
+            result200 = InputExc.fromJS(resultData200);
             return result200;
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<InputExcercise>(<any>null);
-    }
-
-    postInputExcercise(newInputExcercise: SendInputExcercise): Promise<FileResponse | null> {
-        let url_ = this.baseUrl + "/api/InputExcercise";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(newInputExcercise);
-
-        let options_ = <AxiosRequestConfig>{
-            data: content_,
-            responseType: "blob",
-            method: "POST",
-            url: url_,
-            headers: {
-                "Content-Type": "application/json", 
-                "Accept": "application/octet-stream"
-            }
-        };
-
-        return this.instance.request(options_).then((_response: AxiosResponse) => {
-            return this.processPostInputExcercise(_response);
-        });
-    }
-
-    protected processPostInputExcercise(response: AxiosResponse): Promise<FileResponse | null> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers["content-disposition"] : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return Promise.resolve({ fileName: fileName, status: status, data: response.data as Blob, headers: _headers });
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<FileResponse | null>(<any>null);
+        return Promise.resolve<InputExc>(<any>null);
     }
 
     putInputExcercise(updateInputExcercise: SendInputExcercise, id: number): Promise<FileResponse | null> {
@@ -554,14 +509,55 @@ export class InputExcerciseClient {
         return Promise.resolve<FileResponse | null>(<any>null);
     }
 
-    postAnswer(id: number, answer: string): Promise<FileResponse | null> {
-        let url_ = this.baseUrl + "/api/InputExcercise/answer/{id}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+    getAllMinimized(): Promise<MinimizedInputExcercise[]> {
+        let url_ = this.baseUrl + "/api/InputExcercise/all/minimized";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(answer);
+        let options_ = <AxiosRequestConfig>{
+            method: "GET",
+            url: url_,
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.instance.request(options_).then((_response: AxiosResponse) => {
+            return this.processGetAllMinimized(_response);
+        });
+    }
+
+    protected processGetAllMinimized(response: AxiosResponse): Promise<MinimizedInputExcercise[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(MinimizedInputExcercise.fromJS(item));
+            }
+            return result200;
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<MinimizedInputExcercise[]>(<any>null);
+    }
+
+    postInputExcercise(newInputExcercise: SendInputExcercise): Promise<FileResponse | null> {
+        let url_ = this.baseUrl + "/api/InputExcercise";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(newInputExcercise);
 
         let options_ = <AxiosRequestConfig>{
             data: content_,
@@ -575,11 +571,11 @@ export class InputExcerciseClient {
         };
 
         return this.instance.request(options_).then((_response: AxiosResponse) => {
-            return this.processPostAnswer(_response);
+            return this.processPostInputExcercise(_response);
         });
     }
 
-    protected processPostAnswer(response: AxiosResponse): Promise<FileResponse | null> {
+    protected processPostInputExcercise(response: AxiosResponse): Promise<FileResponse | null> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -599,6 +595,53 @@ export class InputExcerciseClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
         return Promise.resolve<FileResponse | null>(<any>null);
+    }
+
+    postAnswer(id: number, answer: string): Promise<string> {
+        let url_ = this.baseUrl + "/api/InputExcercise/answer/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(answer);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            }
+        };
+
+        return this.instance.request(options_).then((_response: AxiosResponse) => {
+            return this.processPostAnswer(_response);
+        });
+    }
+
+    protected processPostAnswer(response: AxiosResponse): Promise<string> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return result200;
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<string>(<any>null);
     }
 }
 
@@ -1613,14 +1656,13 @@ export interface IPasswordChangeData {
     newPassword?: string | undefined;
 }
 
-export class SendInputExcercise implements ISendInputExcercise {
-    correctAnswer?: string | undefined;
+export class InputRandom implements IInputRandom {
+    id!: number;
     question?: string | undefined;
     timeForAnswer!: number;
     helpForAnswer?: string | undefined;
-    age!: number;
 
-    constructor(data?: ISendInputExcercise) {
+    constructor(data?: IInputRandom) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -1631,38 +1673,35 @@ export class SendInputExcercise implements ISendInputExcercise {
 
     init(_data?: any) {
         if (_data) {
-            this.correctAnswer = _data["correctAnswer"];
+            this.id = _data["id"];
             this.question = _data["question"];
             this.timeForAnswer = _data["timeForAnswer"];
             this.helpForAnswer = _data["helpForAnswer"];
-            this.age = _data["age"];
         }
     }
 
-    static fromJS(data: any): SendInputExcercise {
+    static fromJS(data: any): InputRandom {
         data = typeof data === 'object' ? data : {};
-        let result = new SendInputExcercise();
+        let result = new InputRandom();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["correctAnswer"] = this.correctAnswer;
+        data["id"] = this.id;
         data["question"] = this.question;
         data["timeForAnswer"] = this.timeForAnswer;
         data["helpForAnswer"] = this.helpForAnswer;
-        data["age"] = this.age;
         return data; 
     }
 }
 
-export interface ISendInputExcercise {
-    correctAnswer?: string | undefined;
+export interface IInputRandom {
+    id: number;
     question?: string | undefined;
     timeForAnswer: number;
     helpForAnswer?: string | undefined;
-    age: number;
 }
 
 export class GeneralType implements IGeneralType {
@@ -1717,10 +1756,10 @@ export interface IGeneralType {
     age: number;
 }
 
-export class InputExcercise extends GeneralType implements IInputExcercise {
+export class InputExc extends GeneralType implements IInputExc {
     correctAnswer?: string | undefined;
 
-    constructor(data?: IInputExcercise) {
+    constructor(data?: IInputExc) {
         super(data);
     }
 
@@ -1731,9 +1770,9 @@ export class InputExcercise extends GeneralType implements IInputExcercise {
         }
     }
 
-    static fromJS(data: any): InputExcercise {
+    static fromJS(data: any): InputExc {
         data = typeof data === 'object' ? data : {};
-        let result = new InputExcercise();
+        let result = new InputExc();
         result.init(data);
         return result;
     }
@@ -1746,8 +1785,100 @@ export class InputExcercise extends GeneralType implements IInputExcercise {
     }
 }
 
-export interface IInputExcercise extends IGeneralType {
+export interface IInputExc extends IGeneralType {
     correctAnswer?: string | undefined;
+}
+
+export class MinimizedInputExcercise implements IMinimizedInputExcercise {
+    id!: number;
+    question?: string | undefined;
+
+    constructor(data?: IMinimizedInputExcercise) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.question = _data["question"];
+        }
+    }
+
+    static fromJS(data: any): MinimizedInputExcercise {
+        data = typeof data === 'object' ? data : {};
+        let result = new MinimizedInputExcercise();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["question"] = this.question;
+        return data; 
+    }
+}
+
+export interface IMinimizedInputExcercise {
+    id: number;
+    question?: string | undefined;
+}
+
+export class SendInputExcercise implements ISendInputExcercise {
+    correctAnswer?: string | undefined;
+    question?: string | undefined;
+    timeForAnswer!: number;
+    helpForAnswer?: string | undefined;
+    age!: number;
+
+    constructor(data?: ISendInputExcercise) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.correctAnswer = _data["correctAnswer"];
+            this.question = _data["question"];
+            this.timeForAnswer = _data["timeForAnswer"];
+            this.helpForAnswer = _data["helpForAnswer"];
+            this.age = _data["age"];
+        }
+    }
+
+    static fromJS(data: any): SendInputExcercise {
+        data = typeof data === 'object' ? data : {};
+        let result = new SendInputExcercise();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["correctAnswer"] = this.correctAnswer;
+        data["question"] = this.question;
+        data["timeForAnswer"] = this.timeForAnswer;
+        data["helpForAnswer"] = this.helpForAnswer;
+        data["age"] = this.age;
+        return data; 
+    }
+}
+
+export interface ISendInputExcercise {
+    correctAnswer?: string | undefined;
+    question?: string | undefined;
+    timeForAnswer: number;
+    helpForAnswer?: string | undefined;
+    age: number;
 }
 
 export class PostNews implements IPostNews {

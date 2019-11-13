@@ -1,27 +1,21 @@
+import './design.scss';
+
 import React from 'react';
-import { RouteComponentProps } from 'react-router';
 import { Button, Input } from 'reactstrap';
 
 import { GeneralProps } from '../../../../functions/interfaces';
 import { SubmitFormProps } from '../interface';
 import { InputExcerciseFormProps } from './connect';
 
-interface ExcerciseId {
-  excerciseId?: string;
-}
 interface Props
   extends InputExcerciseFormProps,
     SubmitFormProps,
-    GeneralProps,
-    RouteComponentProps<ExcerciseId> {}
+    GeneralProps {}
 export class InputExcerciseFormUnconnected extends React.Component<Props> {
-  componentDidMount() {
-    this.props.getData({ id: 1 });
-  }
   render() {
     return (
       <div>
-        <form>
+        <form className="input-answer-form">
           <Input
             onChange={e =>
               this.props.modifyInputExcerciseForm({

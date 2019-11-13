@@ -24,7 +24,7 @@ export class BombSeeker extends React.Component<{}, State> {
           id: x * 10 + y,
           row: x + 1,
           column: y + 1,
-          bombed: Math.floor(Math.random() * 10) > 6,
+          bombed: Math.floor(Math.random() * 10) > 7,
           revealed: false,
           flagged: false,
           neighbourBombed: 0

@@ -11,6 +11,7 @@ import {
 
 function* handleRequest(action: ICreateInputExcerciseFormRequest) {
   try {
+    console.log(action);
     const result = yield call(api, action);
 
     yield put(CreateInputExcerciseFormDataSuccess({ data: result }));

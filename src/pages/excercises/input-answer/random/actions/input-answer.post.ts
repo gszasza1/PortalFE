@@ -12,8 +12,8 @@ export const InputAnswerPostActionTypes: IInputAnswerPostActionTypes = {
   POST_MODIFY: "InputAnswer post modify"
 };
 export interface InputAnswerPostParams {
-  id: string;
-  answerId?: string;
+  id: number;
+  answer?: string;
 }
 export interface InputAnswerPostData {
   answerCorrect?: string;

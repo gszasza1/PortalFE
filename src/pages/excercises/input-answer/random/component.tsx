@@ -25,7 +25,11 @@ export class RandomUnconnected extends React.PureComponent<Props> {
   };
 
   sendAnswer = () => {
-    this.props.answerSend();
+    if (this.props.data && this.props.answer)
+      this.props.answerSend({
+        id: this.props.data.id,
+        answer: this.props.answer
+      });
     this.setState({ disabled: true });
   };
 
@@ -33,7 +37,7 @@ export class RandomUnconnected extends React.PureComponent<Props> {
     const { props } = this;
     return (
       <div>
-        {props.items && (
+        {props.data && (
           <>
             <div className="InputAnswer-wrapper">
               <img id="Tooltipped" src={QuestionMark} alt=""></img>
@@ -49,27 +53,21 @@ export class RandomUnconnected extends React.PureComponent<Props> {
                   leteltével automatikusan beküldődik.
                 </p>
               </Tooltip>
-              <h3>{props.items.data.text}</h3>
+              <h3>{props.data.question}</h3>
             </div>
             <div className="answer-container">
               <Input
                 disabled={this.state.disabled}
+                value={this.props.answer}
                 onChange={e => props.modifyAnswer(e.target.value)}
               ></Input>
             </div>
             <CountDown endTime={() => this.sendAnswer()}></CountDown>
+            <h3>Helyes válasz: {props.answer && props.answer}</h3>>
             <Button
-              disabled={this.props.isRequesting && !!props.correctAnswer}
-              text={
-                this.props.postSentNumber === 0
-                  ? "Válasz beküldése"
-                  : "Következő kérdés"
-              }
-              onClick={
-                this.props.postSentNumber === 0
-                  ? () => this.sendAnswer()
-                  : () => props.getInputAnswerData()
-              }
+              disabled={this.props.isRequesting}
+              text={"Válasz beküldése"}
+              onClick={() => this.sendAnswer()}
             ></Button>
           </>
         )}

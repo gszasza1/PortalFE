@@ -1,23 +1,23 @@
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 
+import { GeneralProps } from '../../../../functions/interfaces';
 import { IApllicationState } from '../../../../store';
 import { getInputAnswerData, InputAnswerData } from './actions/input-answer.get';
-import { postInputAnswerData, postInputAnswerDataModify } from './actions/input-answer.post';
+import { InputAnswerPostParams, postInputAnswerData, postInputAnswerDataModify } from './actions/input-answer.post';
 import { RandomUnconnected } from './component';
 
 const mapStateToProps = (state: IApllicationState): MappedProps => {
   return {
-    items: state.app.pages.excercises.inputAnswer.random.data,
-    currentAnswer: state.app.pages.excercises.inputAnswer.random.postParams
-      ? state.app.pages.excercises.inputAnswer.random.postParams.answerId
+    isLoaded: state.app.pages.excercises.inputAnswer.random.isLoaded,
+    isRequesting: state.app.pages.excercises.inputAnswer.random.isRequesting,
+    error: state.app.pages.excercises.inputAnswer.random.error,
+    data: state.app.pages.excercises.inputAnswer.random.data
+      ? state.app.pages.excercises.inputAnswer.random.data.data
       : undefined,
-    correctAnswer: state.app.pages.excercises.inputAnswer.random.postData
-      ? state.app.pages.excercises.inputAnswer.random.postData.answerCorrect
-      : undefined,
-    postSentNumber:
-      state.app.pages.excercises.inputAnswer.random.postSentNumber,
-    isRequesting: state.app.pages.excercises.inputAnswer.random.isRequesting
+    answer: state.app.pages.excercises.inputAnswer.random.postParams
+      ? state.app.pages.excercises.inputAnswer.random.postParams.answer
+      : ""
   };
 };
 
@@ -38,15 +38,11 @@ export const Random = connect(
 
 export interface DispachedProps {
   getInputAnswerData: Function;
-  answerSend: Function;
+  answerSend: (props: InputAnswerPostParams) => void;
   modifyAnswer: Function;
 }
-export interface MappedProps {
-  items?: InputAnswerData;
-  currentAnswer?: string;
-  correctAnswer?: string;
-  postSentNumber?: number;
-  isRequesting: boolean;
+export interface MappedProps extends GeneralProps, InputAnswerData {
+  answer?: string;
 }
 
 export type RandomStoreProps = MappedProps & DispachedProps;
