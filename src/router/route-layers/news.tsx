@@ -1,31 +1,46 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router';
 
-import { CreateNewsForm } from '../../pages/news/create/connect';
-import { EditNewsFormConnected } from '../../pages/news/edit/connect';
-import { NewsList } from '../../pages/news/list/connect';
-import SingleNews from '../../pages/news/single-news/connect';
 import { NEWS_PATH } from '../paths/news';
+
+const GeneralNewsPage = lazy(() => import("../../pages/news/component"));
+const NewsList = lazy(() => import("../../pages/news/list/connect"));
+const CreateNewsForm = lazy(() => import("../../pages/news/create/connect"));
+const EditNewsForm = lazy(() => import("../../pages/news/edit/component"));
+const SingleNews = lazy(() => import("../../pages/news/single-news/connect"));
 
 const NewsRouterLayer = (props: RouteComponentProps) => {
   return (
-    <Switch>
-      <Route path={props.match.url + NEWS_PATH.LIST} exact>
-        <NewsList></NewsList>
-      </Route>
-      <Route path={props.match.url + NEWS_PATH.CREATE} exact>
-        <CreateNewsForm></CreateNewsForm>
-      </Route>
-      <Route path={props.match.url + NEWS_PATH.EDIT} exact>
-        <EditNewsFormConnected></EditNewsFormConnected>
-      </Route>
-      <Route
-        path={props.match.url + NEWS_PATH.SINGLE}
-        exact
-        render={routeProps => <SingleNews {...routeProps} />}
-      ></Route>
-      <Redirect path="" exact to={props.match.url + NEWS_PATH.LIST}></Redirect>
-    </Switch>
+    <Suspense fallback={<div className="fallback" />}>
+      <Switch>
+        <Route
+          path={props.match.url + NEWS_PATH.GENERAL}
+          exact={true}
+          render={() => <GeneralNewsPage {...props} />}
+        />
+        <Route
+          path={props.match.url + NEWS_PATH.LIST}
+          exact={true}
+          render={() => <NewsList {...props} />}
+        />
+        <Route
+          path={props.match.url + NEWS_PATH.CREATE}
+          exact={true}
+          render={() => <CreateNewsForm />}
+        />
+        <Route
+          path={props.match.url + NEWS_PATH.EDIT}
+          exact={true}
+          render={props => <EditNewsForm {...props} />}
+        />
+        <Route
+          path={props.match.url + NEWS_PATH.SINGLE}
+          exact={true}
+          render={routeProps => <SingleNews {...routeProps} />}
+        />
+        <Redirect path="" exact={true} to={props.match.url + NEWS_PATH.LIST} />
+      </Switch>
+    </Suspense>
   );
 };
 export default NewsRouterLayer;

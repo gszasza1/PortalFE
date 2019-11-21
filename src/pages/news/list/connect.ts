@@ -34,3 +34,4 @@ export interface DispachedProps {
 }
 interface MappedProps extends GeneralProps, NewsListData {}
 export interface NewsListProps extends DispachedProps, MappedProps {}
+export default NewsList;

@@ -7,12 +7,12 @@ import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Modal } from 'rea
 
 import { DispachedProps, MappedProps } from '.';
 import { BASE_PATHS } from '../../router/paths';
-import { MENU } from '../../user/menu';
 import { UserData } from '../user-data/connect';
 
 interface State {
   dropdownOpen: boolean;
   modalOpen: boolean;
+  id?:string;
 }
 interface Props extends MappedProps, DispachedProps {}
 
@@ -44,7 +44,7 @@ export class HeaderUnconnected extends React.Component<Props, State> {
   render() {
     return (
       <>
-        <header>
+        <header id={this.state.id}>
           <div>
             <Link to="/" className="logo"></Link>
           </div>
@@ -99,26 +99,7 @@ export class HeaderUnconnected extends React.Component<Props, State> {
             </>
           )}
         </header>
-        {/* <Menu>
-          <a id="home" className="menu-item" href="/">
-            Home
-          </a>
-          <a id="about" className="menu-item" href="/about">
-            About
-          </a>
-          <a id="contact" className="menu-item" href="/contact">
-            Contact
-          </a>
-        </Menu> */}
-        {this.props.isConnected && (
-          <ul className="log-menu">
-            {MENU.map(menuItem => (
-              <li key={menuItem.path}>
-                <Link to={menuItem.path}>{menuItem.name}</Link>
-              </li>
-            ))}
-          </ul>
-        )}
+
         <Modal
           className="user-modal"
           isOpen={this.state.modalOpen}

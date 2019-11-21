@@ -1,57 +1,70 @@
-import Timer from "react-compound-timer";
-import React from "react";
-import "./design.scss";
-export class CountDown extends React.Component<TimerProps> {
-  state = {
-    time: this.props.initialTime ? this.props.initialTime : 30000,
-    currentClass: -1
-  };
-  checkpointMaker = (): Checkpoint[] => {
-    let checkpoints: Checkpoint[] = [];
-    if (this.props.checkpoints) {
-      checkpoints = checkpoints.concat(this.props.checkpoints);
+import './design.scss';
+
+import React from 'react';
+
+interface TimerProps {
+  onStop?: Function;
+  onStart?: Function;
+  initialTime?: number;
+  checkpoints?: Checkpoint[];
+  endTime?: Function;
+  onReset?: Function;
+  data?: any;
+  shouldFireEvent: boolean;
+}
+interface State {
+  count: number;
+  currentClass: number;
+}
+export class CountDown extends React.Component<TimerProps, State> {
+  constructor(props: TimerProps) {
+    super(props);
+    this.state = {
+      count: this.props.initialTime ? this.props.initialTime : 60,
+      currentClass: -1
+    };
+  }
+
+  componentDidUpdate(prevProps: TimerProps) {
+    if (this.props.data !== prevProps.data) {
+      this.handleStop();
+      console.log(this.props.data);
+      this.setState(
+        {
+          count: this.props.initialTime ? this.props.initialTime : 60,
+          currentClass: -1
+        },
+        () => this.handleStart()
+      );
     }
-    if (this.props.endTime) {
-      checkpoints.push({
-        time: 10,
-        callback: () => {
-          this.props.endTime && this.props.endTime();
-        }
+    if (this.state.count <= 0) {
+      this.handleStop();
+      if (this.props.endTime && this.props.shouldFireEvent === true) {
+        this.props.endTime();
+      }
+    }
+  }
+
+  handleStart() {
+    console.log("started");
+    setInterval(() => {
+      const newCount = this.state.count - 1;
+      this.setState({
+        count: newCount >= 0 ? newCount : 0
       });
-    }
+    }, 1000);
+  }
 
-    checkpoints.push({
-      time: this.state.time / 2,
-      callback: () => this.cssClass()
-    });
-    checkpoints.push({
-      time: this.state.time / 4,
-      callback: () => this.cssClass()
-    });
+  handleStop() {
+    clearInterval();
+    this.setState({ currentClass: -1 });
+  }
 
-    checkpoints.push({ time: 3000, callback: () => this.cssClass() });
-
-    return checkpoints;
-  };
-  cssClass = () => {
-    this.setState({ currentClass: this.state.currentClass + 1 });
-  };
   render() {
-    const { props } = this;
     return (
-      <Timer
-        initialTime={this.state.time}
-        startImmediately
-        checkpoints={this.checkpointMaker()}
-        onStop={() => props.onStop && props.onStop()}
-        onStart={() => props.onStart && props.onStart()}
-        onReset={() => props.onReset && props.onReset()}
-        direction="backward"
-      >
-        <div className={`timer ${cssClasses[this.state.currentClass]}`}>
-          <Timer.Seconds />
-        </div>
-      </Timer>
+      <div className={`timer ${cssClasses[this.state.currentClass]}`}>
+        {this.state.count}
+      </div>
     );
   }
 }
@@ -61,12 +74,4 @@ const cssClasses = ["green", "yellow", "red"];
 interface Checkpoint {
   time: number;
   callback: () => any;
-}
-interface TimerProps {
-  onStop?: Function;
-  onStart?: Function;
-  initialTime?: number;
-  checkpoints?: Checkpoint[];
-  endTime?: Function;
-  onReset?: Function;
 }

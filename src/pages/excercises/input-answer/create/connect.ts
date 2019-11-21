@@ -15,8 +15,7 @@ const mapStateToProps = (state: IApllicationState): GeneralProps => ({
 const mapDispatchToProps = (dispatch: Dispatch): SubmitFormProps =>
   bindActionCreators(
     {
-      submitForm: CreateInputExcerciseFormData,
-    
+      submitForm: CreateInputExcerciseFormData
     },
     dispatch
   );
@@ -25,3 +24,4 @@ export const CreateInputExcerciseForm = connect(
   mapStateToProps,
   mapDispatchToProps
 )(InputExcerciseForm);
+export default CreateInputExcerciseForm;

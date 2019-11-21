@@ -44,6 +44,9 @@
     "redux": "^4.0.4",
     "redux-saga": "^1.1.1",
     "style-loader": "^1.0.0",
+    "tslint": "^5.20.1",
+    "tslint-plugin-cypress": "^1.0.4",
+    "tslint-react": "^4.1.0",
     "typescript": "3.6.3",
     "yup": "^0.27.0"
   },
@@ -51,7 +54,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "e2e": "npx cypress run",
+    "lint:ts": "tslint 'src/**/*.{ts,tsx,js}'"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -69,6 +74,7 @@
     ]
   },
   "devDependencies": {
+    "cypress": "^3.6.1",
     "redux-devtools-extension": "^2.13.8"
   }
 }

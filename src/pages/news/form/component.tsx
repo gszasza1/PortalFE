@@ -8,8 +8,15 @@ import { GameCard } from '../../../components/game-card/card';
 import { ConnectNewFormProps } from '../interface';
 import { NewsFormProps } from './connect';
 
-interface Props extends NewsFormProps, ConnectNewFormProps {}
+interface Props extends NewsFormProps, ConnectNewFormProps {
+  id?: string;
+}
 export class NewsFormUnconnected extends React.Component<Props> {
+  componentDidMount() {
+    if (this.props.id && +this.props.id) {
+      this.props.getForm({ id: Number(this.props.id) });
+    }
+  }
   render() {
     return (
       <div className="news-form-editor-container">

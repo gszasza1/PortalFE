@@ -26,3 +26,4 @@ export class RankSelector extends React.Component {
     );
   }
 }
+export default RankSelector;

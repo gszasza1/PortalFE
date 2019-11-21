@@ -71,7 +71,7 @@ export class ABCDUnConnected extends React.PureComponent<Props> {
                 </button>
               ))}
             </div>
-            <CountDown endTime={() => this.sendAnswer()}></CountDown>
+            {/* <CountDown endTime={() => this.sendAnswer()}></CountDown> */}
             <Button
               disabled={this.props.isRequesting && !!props.correctAnswer}
               text={

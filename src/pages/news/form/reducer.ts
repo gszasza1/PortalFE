@@ -1,7 +1,8 @@
+import { GetEditNewsFormActionTypes, IGetEditNewsForm } from '../edit/actions/edit.get';
 import { INewsForm, NewsFormActionTypes } from './action/formmodify.';
 import { initialState, NewsFormState } from './store';
 
-type Action = INewsForm;
+type Action = INewsForm | IGetEditNewsForm;
 export const NewFormReducer = (
   state = initialState,
   action: Action
@@ -16,6 +17,15 @@ export const NewFormReducer = (
     }
     case NewsFormActionTypes.INIT: {
       state = initialState;
+      return state;
+    }
+    case GetEditNewsFormActionTypes.SUCCESS: {
+      state = {
+        ...state,
+        description: action.data.description,
+        link: action.data.link,
+        title: action.data.title
+      };
       return state;
     }
 

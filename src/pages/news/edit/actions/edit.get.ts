@@ -1,3 +1,5 @@
+import { INew } from '../../../../Client';
+
 export interface IGetEditNewsFormActionTypes {
   REQUEST: "GetEditNewsForm request";
   SUCCESS: "GetEditNewsForm sucess";
@@ -12,7 +14,7 @@ export const GetEditNewsFormActionTypes: IGetEditNewsFormActionTypes = {
 export interface GetEditNewsFormParams {
   id: number | undefined;
 }
-export interface GetEditNewsFormData {}
+export interface GetEditNewsFormData extends INew {}
 
 //ACTIONHOZ
 export interface IGetEditNewsFormRequest {

@@ -1,6 +1,7 @@
 import { all, call } from 'redux-saga/effects';
 
 import { watchUserData } from './components/user-data/saga';
+import { onNavigate } from './config/titleConfig';
 import { watchExcercises } from './pages/excercises/saga';
 import { watchLogin } from './pages/login/saga';
 import { watchNews } from './pages/news/saga';
@@ -18,6 +19,7 @@ export function* rootSaga() {
     call(watchRank),
     call(watchCheckLogin),
     call(watchUserData),
-    call(watchNews)
+    call(watchNews),
+    call(onNavigate)
   ]);
 }

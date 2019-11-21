@@ -4,8 +4,8 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { IApllicationState } from '../../../store';
 import { NewsForm } from '../form/connect';
 import { DispatchedProps, MappedProps } from '../interface';
-import { EditNewsFormData } from './actions/edit.put';
 import { getGetEditNewsFormData } from './actions/edit.get';
+import { EditNewsFormData } from './actions/edit.put';
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchedProps =>
   bindActionCreators(
@@ -20,7 +20,7 @@ const mapStateToProps = (state: IApllicationState): MappedProps => ({
   isLoaded: state.app.pages.news.edit.isLoaded,
   isRequesting: state.app.pages.news.edit.isRequesting,
   error: state.app.pages.news.edit.error,
-  isEdit:true
+  isEdit: true
 });
 
 export const EditNewsFormConnected = connect(

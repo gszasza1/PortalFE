@@ -10,7 +10,7 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchedProps =>
   bindActionCreators(
     {
       submitForm: CreateNewsFormData,
-      getForm:()=>{}
+      getForm: () => {}
     },
     dispatch
   );
@@ -19,10 +19,11 @@ const mapStateToProps = (state: IApllicationState): MappedProps => ({
   isLoaded: state.app.pages.news.create.isLoaded,
   isRequesting: state.app.pages.news.create.isRequesting,
   error: state.app.pages.news.create.error,
-  isEdit:false
+  isEdit: false
 });
 
 export const CreateNewsForm = connect(
   mapStateToProps,
   mapDispatchToProps
 )(NewsForm);
+export default CreateNewsForm;

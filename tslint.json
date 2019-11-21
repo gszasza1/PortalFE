@@ -1,0 +1,16 @@
+{
+  "defaultSeverity": "error",
+  "jsRules": {},
+  "extends": "tslint-react",
+  "rules": {
+    "ordered-imports": [false],
+    "object-literal-sort-keys": false,
+    "no-any": true,
+    "no-console": true,
+    "jsx-no-lambda": false
+  },
+  "rulesDirectory": [],
+  "linterOptions": {
+    "exclude": ["node_modules/**"]
+  }
+}

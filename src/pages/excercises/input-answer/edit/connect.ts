@@ -31,3 +31,4 @@ export const EditInputExcerciseForm = connect(
 export interface MappedProps {
   getData: (props: GetEditInputExcerciseFormParams) => void;
 }
+export default EditInputExcerciseForm;

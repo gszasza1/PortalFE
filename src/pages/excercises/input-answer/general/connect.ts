@@ -37,3 +37,4 @@ interface MappedProps extends GeneralProps, GetAllInputExcerciseData {}
 export interface GetAllInputExcerciseProps
   extends DispachedProps,
     MappedProps {}
+export default GeneralInputExcercise;

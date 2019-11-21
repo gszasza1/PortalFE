@@ -9,15 +9,26 @@ import { CountDown } from '../../../../components/timer/component';
 import { RandomStoreProps } from './connect';
 
 interface Props extends RandomStoreProps {}
-
-export class RandomUnconnected extends React.PureComponent<Props> {
+interface State {
+  shouldFireEvent: boolean;
+  disabled: boolean;
+  tooltipOpen: boolean;
+}
+export class RandomUnconnected extends React.PureComponent<Props, State> {
   state = {
     disabled: false,
-    tooltipOpen: false
+    tooltipOpen: false,
+    shouldFireEvent: true
   };
   componentDidMount() {
     this.props.getInputAnswerData();
   }
+  componentDidUpdate(prevProps: Props, prevState: State) {
+    if (this.props.data !== prevProps.data) {
+      this.setState({ shouldFireEvent: true });
+    }
+  }
+
   toggle = () => {
     this.setState({
       tooltipOpen: !this.state.tooltipOpen
@@ -30,7 +41,7 @@ export class RandomUnconnected extends React.PureComponent<Props> {
         id: this.props.data.id,
         answer: this.props.answer
       });
-    this.setState({ disabled: true });
+    this.setState({ disabled: true, shouldFireEvent: false });
   };
 
   render() {
@@ -61,16 +72,20 @@ export class RandomUnconnected extends React.PureComponent<Props> {
                 value={this.props.answer}
                 onChange={e => props.modifyAnswer(e.target.value)}
               ></Input>
-            </div>
-            <CountDown endTime={() => this.sendAnswer()}></CountDown>
-            <h3>Helyes válasz: {props.answer && props.answer}</h3>>
-            <Button
-              disabled={this.props.isRequesting}
-              text={"Válasz beküldése"}
-              onClick={() => this.sendAnswer()}
-            ></Button>
+            </div>{" "}
           </>
         )}
+        <CountDown
+          shouldFireEvent={this.state.shouldFireEvent}
+          data={this.props.data}
+          endTime={() => this.sendAnswer()}
+        ></CountDown>
+        <h3>Helyes válasz: {props.answer && props.answer}</h3>>
+        <Button
+          disabled={this.props.isRequesting}
+          text={"Válasz beküldése"}
+          onClick={() => this.sendAnswer()}
+        ></Button>
       </div>
     );
   }

@@ -1,43 +1,59 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router';
 
-import { CreateInputExcerciseForm } from '../../pages/excercises/input-answer/create/connect';
-import { EditInputExcerciseForm } from '../../pages/excercises/input-answer/edit/connect';
-import { GeneralInputExcercise } from '../../pages/excercises/input-answer/general/connect';
-import { Random } from '../../pages/excercises/input-answer/random';
 import { INPUT_EXCECISE_PATH } from '../paths';
+
+const Random = lazy(() =>
+  import("../../pages/excercises/input-answer/random/connect")
+);
+const CreateInputExcerciseForm = lazy(() =>
+  import("../../pages/excercises/input-answer/create/connect")
+);
+const EditInputExcerciseForm = lazy(() =>
+  import("../../pages/excercises/input-answer/edit/connect")
+);
+const GeneralInputExcercise = lazy(() =>
+  import("../../pages/excercises/input-answer/general/connect")
+);
 
 const InputExcerciseRouterLayer = (props: RouteComponentProps) => {
   return (
-    <Switch>
-      <Route path={props.match.url + INPUT_EXCECISE_PATH.CREATE} exact>
-        <CreateInputExcerciseForm {...props}></CreateInputExcerciseForm>
-      </Route>
-      <Route path={props.match.url + INPUT_EXCECISE_PATH.RANDOM} exact>
-        <Random></Random>
-      </Route>
+    <Suspense fallback={<div className="fallback" />}>
+      <Switch>
+        <Route
+          path={props.match.url + INPUT_EXCECISE_PATH.CREATE}
+          exact={true}
+          render={() => <CreateInputExcerciseForm />}
+        />
+        <Route
+          path={props.match.url + INPUT_EXCECISE_PATH.RANDOM}
+          exact={true}
+          render={() => <Random />}
+        />
 
-      <Route
-        path={props.match.url + INPUT_EXCECISE_PATH.EDIT}
-        exact
-        component={EditInputExcerciseForm}
-      ></Route>
-      <Route
-        path={props.match.url + INPUT_EXCECISE_PATH.GENERAL}
-        exact
-        component={GeneralInputExcercise}
-      ></Route>
-      <Redirect
-        from={props.match.url + "/edit"}
-        exact
-        to={props.match.url}
-      ></Redirect>
-      <Route
-        path={props.match.url + INPUT_EXCECISE_PATH.SPECIFIC}
-        exact
-      ></Route>
-      <Redirect path="" exact to={props.match.url}></Redirect>
-    </Switch>
+        <Route
+          path={props.match.url + INPUT_EXCECISE_PATH.EDIT}
+          exact={true}
+          component={EditInputExcerciseForm}
+          render={() => <EditInputExcerciseForm {...props} />}
+        />
+        <Route
+          path={props.match.url + INPUT_EXCECISE_PATH.GENERAL}
+          exact={true}
+          render={() => <GeneralInputExcercise {...props} />}
+        />
+        <Redirect
+          from={props.match.url + "/edit"}
+          exact={true}
+          to={props.match.url}
+        />
+        <Route
+          path={props.match.url + INPUT_EXCECISE_PATH.SPECIFIC}
+          exact={true}
+        />
+        <Redirect path="" exact={true} to={props.match.url} />
+      </Switch>
+    </Suspense>
   );
 };
 export default InputExcerciseRouterLayer;

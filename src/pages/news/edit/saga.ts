@@ -3,12 +3,18 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import { NewsClient, PostNews } from '../../../Client';
 import { BaseUrl } from '../../../config/api';
 import {
-    EditNewsFormActionTypes,
-    EditNewsFormDataError,
-    EditNewsFormDataSuccess,
-    IEditNewsFormRequest,
+  GetEditNewsFormActionTypes,
+  GetEditNewsFormData,
+  getGetEditNewsFormDataError,
+  getGetEditNewsFormDataSuccess,
+  IGetEditNewsFormRequest,
+} from './actions/edit.get';
+import {
+  EditNewsFormActionTypes,
+  EditNewsFormDataError,
+  EditNewsFormDataSuccess,
+  IEditNewsFormRequest,
 } from './actions/edit.put';
-import { IGetEditNewsFormRequest } from './actions/edit.get';
 
 function* handleRequestUpdate(action: IEditNewsFormRequest) {
   try {
@@ -39,17 +45,17 @@ const apiUpdate = (action: IEditNewsFormRequest) => {
 
 function* handleRequestGet(action: IGetEditNewsFormRequest) {
   try {
-    const result = yield call(apiGet, action);
+    const result: GetEditNewsFormData = yield call(apiGet, action);
 
-    yield put(EditNewsFormDataSuccess({ data: result }));
+    yield put(getGetEditNewsFormDataSuccess(result));
   } catch (err) {
     console.error(err);
-    yield put(EditNewsFormDataError(err));
+    yield put(getGetEditNewsFormDataError(err));
   }
 }
 
 export function* watchEditNewsFormGet() {
-  yield takeEvery(EditNewsFormActionTypes.REQUEST, handleRequestGet);
+  yield takeEvery(GetEditNewsFormActionTypes.REQUEST, handleRequestGet);
 }
 
 const apiGet = (action: IGetEditNewsFormRequest) => {
@@ -63,4 +69,3 @@ const apiGet = (action: IGetEditNewsFormRequest) => {
       return error;
     });
 };
-

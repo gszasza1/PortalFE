@@ -6,12 +6,15 @@ import { ABCD_EXCECISE_PATH } from '../paths';
 const AbcdExcerciseRouterLayer = (props: RouteComponentProps) => {
   return (
     <Switch>
-      <Route path={props.match.url + ABCD_EXCECISE_PATH.CREATE} exact></Route>
-      <Route path={props.match.url + ABCD_EXCECISE_PATH.RANDOM} exact></Route>
-      <Route path={props.match.url + ABCD_EXCECISE_PATH.SPECIFIC} exact></Route>
-      <Route path={props.match.url + ABCD_EXCECISE_PATH.EDIT} exact></Route>
+      <Route path={props.match.url + ABCD_EXCECISE_PATH.CREATE} exact={true} />
+      <Route path={props.match.url + ABCD_EXCECISE_PATH.RANDOM} exact={true} />
+      <Route
+        path={props.match.url + ABCD_EXCECISE_PATH.SPECIFIC}
+        exact={true}
+      />
+      <Route path={props.match.url + ABCD_EXCECISE_PATH.EDIT} exact={true} />
 
-      <Redirect path="" exact to={props.match.url}></Redirect>
+      <Redirect path="" exact={true} to={props.match.url} />
     </Switch>
   );
 };
